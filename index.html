@@ -3,25 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Token Creator — Launch your Solana token in minutes</title>
+<title>Token Creator — Launch your Solana token</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg: #04040a;
-    --surface: #0a0a14;
-    --card: #0f0f1c;
-    --border: #1a1a2e;
-    --border-bright: #2a2a48;
-    --indigo: #6366f1;
-    --violet: #8b5cf6;
-    --cyan: #22d3ee;
+    --bg: #000000;
+    --surface: #0a0a0a;
+    --card: #111111;
+    --border: #1f1f1f;
+    --border-bright: #2a2a2a;
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-dim: rgba(201,168,76,0.1);
+    --gold-glow: rgba(201,168,76,0.15);
+    --text: #F5F5F5;
+    --muted: #666666;
+    --dim: #333333;
     --green: #10b981;
-    --text: #f1f5f9;
-    --muted: #64748b;
-    --dim: #2d3748;
   }
 
   html { scroll-behavior: smooth; }
@@ -34,34 +35,26 @@
     overflow-x: hidden;
   }
 
-  /* Grid background */
-  body::before {
+  /* Subtle noise */
+  body::after {
     content: '';
     position: fixed;
     inset: 0;
-    background-image:
-      linear-gradient(rgba(99,102,241,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(99,102,241,0.04) 1px, transparent 1px);
-    background-size: 40px 40px;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
     pointer-events: none;
-    z-index: 0;
+    z-index: 9999;
+    opacity: 0.4;
   }
 
-  .container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 24px;
-    position: relative;
-    z-index: 1;
-  }
+  .mono { font-family: 'JetBrains Mono', monospace; }
 
   /* NAV */
   nav {
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 100;
-    background: rgba(4,4,10,0.8);
-    backdrop-filter: blur(20px);
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(24px);
     border-bottom: 1px solid var(--border);
   }
 
@@ -76,86 +69,89 @@
   }
 
   .logo {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 800;
-    background: linear-gradient(135deg, var(--indigo), var(--cyan));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+    text-decoration: none;
   }
 
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .nav-link {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    transition: color 0.2s;
+  }
+
+  .nav-link:hover { color: var(--text); }
+
   .nav-cta {
-    background: linear-gradient(135deg, var(--indigo), var(--violet));
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 8px 20px;
-    font-family: 'Syne', sans-serif;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
+    color: #000;
+    background: var(--gold);
+    border: none;
+    border-radius: 8px;
+    padding: 8px 18px;
     cursor: pointer;
     text-decoration: none;
     transition: opacity 0.2s;
+    letter-spacing: 0.02em;
   }
 
   .nav-cta:hover { opacity: 0.85; }
 
+  /* CONTAINER */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
   /* HERO */
   .hero {
-    padding: 160px 0 100px;
+    padding: 160px 0 120px;
     text-align: center;
   }
 
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(99,102,241,0.1);
-    border: 1px solid rgba(99,102,241,0.25);
-    border-radius: 100px;
-    padding: 6px 16px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--indigo);
-    letter-spacing: 0.05em;
-    margin-bottom: 32px;
-  }
-
-  .badge::before {
-    content: '';
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--green);
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
+  .module-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    font-family: 'JetBrains Mono', monospace;
   }
 
   h1 {
-    font-size: clamp(42px, 7vw, 76px);
+    font-size: clamp(48px, 8vw, 80px);
     font-weight: 800;
-    line-height: 1.05;
+    line-height: 1.0;
     letter-spacing: -0.03em;
     margin-bottom: 24px;
+    color: var(--text);
   }
 
-  .gradient-text {
-    background: linear-gradient(135deg, #fff 0%, var(--indigo) 50%, var(--cyan) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+  .gold-word { color: var(--gold); }
 
   .hero-sub {
-    font-size: 18px;
+    font-size: 16px;
     color: var(--muted);
-    max-width: 560px;
+    max-width: 480px;
     margin: 0 auto 48px;
-    line-height: 1.6;
+    line-height: 1.7;
     font-weight: 400;
   }
 
@@ -164,29 +160,32 @@
     gap: 12px;
     justify-content: center;
     flex-wrap: wrap;
+    margin-bottom: 32px;
   }
 
   .btn-primary {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: linear-gradient(135deg, var(--indigo), var(--violet));
-    color: #fff;
+    background: var(--gold);
+    color: #000;
     border: none;
-    border-radius: 12px;
+    border-radius: 10px;
     padding: 14px 28px;
     font-family: 'Syne', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
+    font-size: 14px;
+    font-weight: 800;
     cursor: pointer;
     text-decoration: none;
-    box-shadow: 0 0 40px rgba(99,102,241,0.3);
     transition: all 0.2s;
+    box-shadow: 0 0 40px var(--gold-glow);
+    letter-spacing: 0.02em;
   }
 
   .btn-primary:hover {
     transform: translateY(-1px);
-    box-shadow: 0 0 60px rgba(99,102,241,0.4);
+    box-shadow: 0 0 60px rgba(201,168,76,0.3);
+    background: var(--gold-light);
   }
 
   .btn-ghost {
@@ -196,10 +195,10 @@
     background: transparent;
     color: var(--muted);
     border: 1px solid var(--border-bright);
-    border-radius: 12px;
+    border-radius: 10px;
     padding: 14px 28px;
     font-family: 'Syne', sans-serif;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     text-decoration: none;
@@ -207,280 +206,266 @@
   }
 
   .btn-ghost:hover {
-    color: var(--text);
-    border-color: var(--indigo);
+    color: var(--gold);
+    border-color: rgba(201,168,76,0.4);
   }
 
-  /* STATS BAR */
+  .network-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--dim);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 6px 14px;
+  }
+
+  .dot-green {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: blink 2s infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0;
+  }
+
+  /* STATS */
   .stats {
+    background: var(--surface);
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
-    background: var(--surface);
-    padding: 28px 0;
-    margin-bottom: 100px;
+    padding: 36px 0;
+    margin-bottom: 120px;
   }
 
   .stats-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 0;
   }
 
   .stat-item {
     text-align: center;
-    padding: 0 24px;
+    padding: 0 32px;
     border-right: 1px solid var(--border);
   }
 
   .stat-item:last-child { border-right: none; }
 
   .stat-value {
-    font-size: 32px;
+    font-size: 36px;
     font-weight: 800;
-    background: linear-gradient(135deg, var(--indigo), var(--cyan));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--gold);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 8px;
+    font-family: 'JetBrains Mono', monospace;
   }
 
   .stat-label {
-    font-size: 13px;
+    font-size: 11px;
     color: var(--muted);
-    margin-top: 4px;
-    font-weight: 500;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
-  /* SECTIONS */
+  /* SECTION */
   section { margin-bottom: 120px; }
 
-  .section-tag {
-    font-size: 11px;
+  .section-eyebrow {
+    font-size: 10px;
     font-weight: 700;
-    letter-spacing: 0.15em;
-    color: var(--indigo);
+    letter-spacing: 0.18em;
+    color: var(--gold);
     text-transform: uppercase;
+    font-family: 'JetBrains Mono', monospace;
     margin-bottom: 16px;
   }
 
   h2 {
-    font-size: clamp(28px, 4vw, 42px);
+    font-size: clamp(32px, 5vw, 52px);
     font-weight: 800;
-    letter-spacing: -0.02em;
-    line-height: 1.1;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
     margin-bottom: 16px;
   }
 
   .section-sub {
-    font-size: 17px;
+    font-size: 16px;
     color: var(--muted);
-    max-width: 520px;
-    line-height: 1.6;
-    margin-bottom: 60px;
+    max-width: 480px;
+    line-height: 1.7;
+    margin-bottom: 64px;
   }
 
   /* STEPS */
-  .steps {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    position: relative;
-  }
-
-  .steps::before {
-    content: '';
-    position: absolute;
-    left: 27px;
-    top: 56px;
-    bottom: 56px;
-    width: 1px;
-    background: linear-gradient(to bottom, var(--indigo), var(--violet), var(--cyan));
-    opacity: 0.3;
-  }
+  .steps { display: flex; flex-direction: column; }
 
   .step {
-    display: flex;
+    display: grid;
+    grid-template-columns: 72px 1fr;
     gap: 24px;
-    align-items: flex-start;
     padding: 32px 0;
     border-bottom: 1px solid var(--border);
-    position: relative;
+    align-items: start;
   }
 
   .step:last-child { border-bottom: none; }
 
-  .step-number {
-    width: 56px;
-    height: 56px;
-    border-radius: 14px;
-    background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.15));
-    border: 1px solid rgba(99,102,241,0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--indigo);
-    flex-shrink: 0;
-    position: relative;
-    z-index: 1;
+  .step-num {
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    padding-top: 4px;
   }
-
-  .step-content { flex: 1; padding-top: 8px; }
 
   .step-title {
     font-size: 20px;
     font-weight: 700;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
   }
 
   .step-desc {
-    font-size: 15px;
+    font-size: 14px;
     color: var(--muted);
-    line-height: 1.6;
-    margin-bottom: 12px;
+    line-height: 1.7;
+    margin-bottom: 14px;
   }
 
-  .step-tags {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; }
 
   .tag {
-    font-size: 11px;
-    font-weight: 600;
+    font-size: 10px;
+    font-weight: 700;
     font-family: 'JetBrains Mono', monospace;
     padding: 4px 10px;
-    border-radius: 6px;
-    letter-spacing: 0.02em;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+    background: rgba(201,168,76,0.08);
+    color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.15);
   }
 
-  .tag-indigo {
-    background: rgba(99,102,241,0.1);
-    color: var(--indigo);
-    border: 1px solid rgba(99,102,241,0.2);
-  }
-
-  .tag-violet {
-    background: rgba(139,92,246,0.1);
-    color: var(--violet);
-    border: 1px solid rgba(139,92,246,0.2);
-  }
-
-  .tag-cyan {
-    background: rgba(34,211,238,0.08);
-    color: var(--cyan);
-    border: 1px solid rgba(34,211,238,0.2);
-  }
-
-  .tag-green {
-    background: rgba(16,185,129,0.08);
-    color: var(--green);
-    border: 1px solid rgba(16,185,129,0.2);
+  .tag-muted {
+    background: var(--surface);
+    color: var(--muted);
+    border: 1px solid var(--border);
   }
 
   /* PRICING */
   .pricing-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
   }
 
   .pricing-card {
     background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
     padding: 28px;
-    transition: border-color 0.2s;
-    position: relative;
-    overflow: hidden;
+    transition: background 0.2s;
   }
 
-  .pricing-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--indigo), var(--violet));
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-
-  .pricing-card:hover { border-color: rgba(99,102,241,0.4); }
-  .pricing-card:hover::before { opacity: 1; }
-
-  .pricing-icon {
-    font-size: 28px;
-    margin-bottom: 16px;
-    display: block;
-  }
+  .pricing-card:hover { background: #161616; }
 
   .pricing-module {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.18em;
     color: var(--muted);
-    text-transform: uppercase;
-    margin-bottom: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 20px;
   }
 
   .pricing-name {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
   }
 
   .pricing-amount {
-    font-size: 36px;
+    font-size: 40px;
     font-weight: 800;
+    color: var(--gold);
     font-family: 'JetBrains Mono', monospace;
-    background: linear-gradient(135deg, var(--indigo), var(--cyan));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
     line-height: 1;
     margin-bottom: 4px;
+    letter-spacing: -0.02em;
   }
 
   .pricing-unit {
-    font-size: 13px;
+    font-size: 11px;
     color: var(--muted);
-    margin-bottom: 20px;
     font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 20px;
+  }
+
+  .pricing-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin-bottom: 16px;
   }
 
   .pricing-desc {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--muted);
-    line-height: 1.5;
-    border-top: 1px solid var(--border);
-    padding-top: 16px;
+    line-height: 1.6;
+  }
+
+  .pricing-free {
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--green);
+    font-family: 'JetBrains Mono', monospace;
+    line-height: 1;
+    margin-bottom: 4px;
   }
 
   /* FEATURES */
   .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
   }
 
   .feature-card {
     background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
     padding: 24px;
+    transition: background 0.2s;
   }
 
-  .feature-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    background: rgba(99,102,241,0.1);
-    border: 1px solid rgba(99,102,241,0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
+  .feature-card:hover { background: #161616; }
+
+  .feature-num {
+    font-size: 10px;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--gold);
+    letter-spacing: 0.1em;
     margin-bottom: 16px;
   }
 
@@ -491,106 +476,94 @@
   }
 
   .feature-desc {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--muted);
-    line-height: 1.5;
+    line-height: 1.6;
   }
 
   /* CTA */
-  .cta-section {
-    text-align: center;
-    padding: 80px 40px;
-    background: var(--card);
+  .cta-wrap {
     border: 1px solid var(--border);
-    border-radius: 28px;
+    border-radius: 20px;
+    background: var(--card);
+    padding: 80px 48px;
+    text-align: center;
+    margin-bottom: 80px;
     position: relative;
     overflow: hidden;
-    margin-bottom: 80px;
   }
 
-  .cta-section::before {
+  .cta-wrap::before {
     content: '';
     position: absolute;
-    top: -100px;
+    bottom: -80px;
     left: 50%;
     transform: translateX(-50%);
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%);
+    width: 500px;
+    height: 300px;
+    background: radial-gradient(ellipse, rgba(201,168,76,0.08) 0%, transparent 70%);
     pointer-events: none;
   }
 
-  .cta-section h2 { margin-bottom: 16px; }
-
-  .cta-section .section-sub {
-    margin: 0 auto 40px;
-  }
+  .cta-wrap h2 { margin-bottom: 16px; }
+  .cta-wrap .section-sub { margin: 0 auto 40px; }
 
   /* FOOTER */
   footer {
     border-top: 1px solid var(--border);
-    padding: 40px 0;
-    text-align: center;
+    padding: 32px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   footer p {
-    font-size: 13px;
+    font-size: 11px;
     color: var(--dim);
-  }
-
-  /* NETWORK BADGE */
-  .network-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
+    letter-spacing: 0.05em;
     font-family: 'JetBrains Mono', monospace;
-    color: var(--muted);
-    background: rgba(16,185,129,0.05);
-    border: 1px solid rgba(16,185,129,0.2);
-    border-radius: 100px;
-    padding: 4px 12px;
-    margin-top: 24px;
-  }
-
-  .network-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--green);
   }
 
   @media (max-width: 640px) {
+    h1 { font-size: 40px; }
     .stats-grid { grid-template-columns: 1fr; }
-    .stat-item { border-right: none; border-bottom: 1px solid var(--border); padding: 16px 0; }
+    .stat-item { border-right: none; border-bottom: 1px solid var(--border); padding: 20px 0; }
     .stat-item:last-child { border-bottom: none; }
-    .steps::before { display: none; }
-    .hero { padding: 120px 0 80px; }
+    .step { grid-template-columns: 48px 1fr; gap: 16px; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr; }
+    .cta-wrap { padding: 48px 24px; }
+    .nav-links .nav-link { display: none; }
   }
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
   <div class="inner">
-    <span class="logo">Token Creator</span>
-    <a href="https://app.token-creator.space" class="nav-cta">Launch App →</a>
+    <a href="https://app.token-creator.space" class="logo">TOKEN CREATOR</a>
+    <div class="nav-links">
+      <a href="#how" class="nav-link">HOW IT WORKS</a>
+      <a href="#pricing" class="nav-link">PRICING</a>
+      <a href="https://app.token-creator.space" class="nav-cta">LAUNCH APP</a>
+    </div>
   </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
   <div class="container">
-    <div class="badge">Live on Solana Mainnet</div>
-    <h1>Launch your token.<br><span class="gradient-text">Own it completely.</span></h1>
-    <p class="hero-sub">Create, vest, and add liquidity to your Solana token in under 10 minutes — no code required, no middlemen, full custody.</p>
+    <div class="module-tag">Solana Mainnet · Non-custodial</div>
+    <h1>Launch your token.<br><span class="gold-word">Own it fully.</span></h1>
+    <p class="hero-sub">Create, vest, and add liquidity to your Solana token in under 10 minutes — no code, no middlemen, complete custody.</p>
     <div class="hero-actions">
-      <a href="https://app.token-creator.space" class="btn-primary">🚀 Create your token</a>
+      <a href="https://app.token-creator.space" class="btn-primary">Launch App →</a>
       <a href="#how" class="btn-ghost">See how it works</a>
     </div>
-    <div class="network-badge">
-      <div class="network-dot"></div>
-      Solana Mainnet · Phantom & Solflare
+    <div class="network-pill">
+      <div class="dot-green"></div>
+      Solana Mainnet · Phantom · Solflare
     </div>
   </div>
 </section>
@@ -600,12 +573,12 @@
   <div class="container">
     <div class="stats-grid">
       <div class="stat-item">
-        <div class="stat-value">4</div>
-        <div class="stat-label">Modules included</div>
+        <div class="stat-value">04</div>
+        <div class="stat-label">Modules</div>
       </div>
       <div class="stat-item">
-        <div class="stat-value">&lt; 10min</div>
-        <div class="stat-label">From zero to listed</div>
+        <div class="stat-value">&lt;10</div>
+        <div class="stat-label">Minutes to launch</div>
       </div>
       <div class="stat-item">
         <div class="stat-value">100%</div>
@@ -618,61 +591,64 @@
 <!-- HOW IT WORKS -->
 <section id="how">
   <div class="container">
-    <div class="section-tag">How it works</div>
+    <div class="section-eyebrow">How it works</div>
     <h2>Four steps.<br>One complete launch.</h2>
     <p class="section-sub">Every tool you need to go from idea to live token with liquidity — in a single app.</p>
 
     <div class="steps">
+
       <div class="step">
-        <div class="step-number">1</div>
-        <div class="step-content">
-          <div class="step-title">🪙 Create your token</div>
-          <p class="step-desc">Define your token name, symbol, description, and upload your logo. Your image is pinned to IPFS via Pinata for permanent decentralized storage. The token is created on-chain as an SPL token with Metaplex metadata. Choose your supply, decimals, and dev allocation — then optionally revoke mint and freeze authorities for a fully trustless token.</p>
-          <div class="step-tags">
-            <span class="tag tag-indigo">SPL Token</span>
-            <span class="tag tag-violet">Metaplex</span>
-            <span class="tag tag-cyan">IPFS / Pinata</span>
+        <div class="step-num">01 —</div>
+        <div>
+          <div class="step-title">Create your token</div>
+          <p class="step-desc">Name, symbol, description, logo — uploaded to IPFS via Pinata for permanent decentralized storage. The token is minted on-chain as an SPL token with Metaplex on-chain metadata. Choose supply, decimals, and dev allocation. Optionally revoke mint and freeze authorities after vesting for a fully trustless token.</p>
+          <div class="tags">
+            <span class="tag">SPL Token</span>
+            <span class="tag">Metaplex</span>
+            <span class="tag">IPFS / Pinata</span>
           </div>
         </div>
       </div>
 
       <div class="step">
-        <div class="step-number">2</div>
-        <div class="step-content">
-          <div class="step-title">🔒 Set up vesting</div>
-          <p class="step-desc">Lock your dev allocation using Streamflow, a fully audited vesting protocol on Solana. Configure a cliff period, total vesting duration, and recipient wallet. Tokens unlock linearly and transparently on-chain — no trust required. Create the vesting contract before revoking authorities to keep the process fully compatible.</p>
-          <div class="step-tags">
-            <span class="tag tag-violet">Streamflow</span>
-            <span class="tag tag-green">On-chain vesting</span>
+        <div class="step-num">02 —</div>
+        <div>
+          <div class="step-title">Set up vesting</div>
+          <p class="step-desc">Lock your dev allocation using Streamflow, a fully audited vesting protocol on Solana. Configure a cliff period and total duration. Tokens unlock linearly and transparently on-chain — no trust required. Set up vesting before revoking authorities to keep everything compatible.</p>
+          <div class="tags">
+            <span class="tag">Streamflow</span>
+            <span class="tag">On-chain vesting</span>
+            <span class="tag-muted tag">Audited protocol</span>
           </div>
         </div>
       </div>
 
       <div class="step">
-        <div class="step-number">3</div>
-        <div class="step-content">
-          <div class="step-title">💧 Add liquidity</div>
-          <p class="step-desc">Create a concentrated liquidity pool on Orca Whirlpool — Solana's leading AMM. Choose your pair (token / SOL or token / USDC), set an initial price, and deposit. The app handles pool initialization, tick array setup, SOL wrapping, and position opening automatically. Your position is a Whirlpool NFT you fully own.</p>
-          <div class="step-tags">
-            <span class="tag tag-cyan">Orca Whirlpool</span>
-            <span class="tag tag-indigo">Full-range position</span>
-            <span class="tag tag-violet">WSOL auto-wrap</span>
+        <div class="step-num">03 —</div>
+        <div>
+          <div class="step-title">Add liquidity</div>
+          <p class="step-desc">Create a concentrated liquidity pool on Orca Whirlpool — Solana's leading AMM. Choose your pair (token / SOL or token / USDC), set an initial price, and deposit. Pool init, tick arrays, SOL wrapping, and position opening are all handled automatically. Your position is a Whirlpool NFT you fully own.</p>
+          <div class="tags">
+            <span class="tag">Orca Whirlpool</span>
+            <span class="tag">Full-range position</span>
+            <span class="tag-muted tag">WSOL auto-wrap</span>
           </div>
         </div>
       </div>
 
       <div class="step">
-        <div class="step-number">4</div>
-        <div class="step-content">
-          <div class="step-title">📊 Share your public page</div>
-          <p class="step-desc">Every token gets a shareable public page at <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--indigo)">/token/[mint]</span>. It displays live price data from DEXscreener, an embedded price chart, top holders, circulating supply, vesting contract status, and your social links — all pulled from on-chain metadata automatically.</p>
-          <div class="step-tags">
-            <span class="tag tag-green">DEXscreener</span>
-            <span class="tag tag-indigo">Live price</span>
-            <span class="tag tag-violet">Vesting status</span>
+        <div class="step-num">04 —</div>
+        <div>
+          <div class="step-title">Share your public page</div>
+          <p class="step-desc">Every token gets a shareable public page at <span class="mono" style="font-size:12px;color:var(--gold)">/token/[mint]</span>. Live price from DEXscreener, embedded chart, top holders, supply, vesting status, and social links — all pulled from on-chain metadata automatically.</p>
+          <div class="tags">
+            <span class="tag">DEXscreener</span>
+            <span class="tag">Live price</span>
+            <span class="tag-muted tag">Vesting status</span>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -680,46 +656,48 @@
 <!-- PRICING -->
 <section id="pricing">
   <div class="container">
-    <div class="section-tag">Transparent pricing</div>
-    <h2>Simple fees.<br>No hidden costs.</h2>
-    <p class="section-sub">You pay only when you use a module. All fees are collected on-chain, visible on Solscan, and go directly to service maintenance.</p>
+    <div class="section-eyebrow">Pricing</div>
+    <h2>Simple fees.<br>No surprises.</h2>
+    <p class="section-sub">Pay only when you use a module. All fees are collected on-chain, visible on Solscan.</p>
 
     <div class="pricing-grid">
+
       <div class="pricing-card">
-        <span class="pricing-icon">🪙</span>
-        <div class="pricing-module">Module 1</div>
+        <div class="pricing-module">MODULE 01 — TOKEN</div>
         <div class="pricing-name">Token creation</div>
         <div class="pricing-amount">0.05</div>
         <div class="pricing-unit">SOL per token</div>
-        <p class="pricing-desc">Covers IPFS upload, on-chain mint creation, Metaplex metadata, and ATA initialization. Paid once, your token lives forever.</p>
+        <hr class="pricing-divider">
+        <p class="pricing-desc">Covers IPFS upload, on-chain mint, Metaplex metadata, and ATA initialization. Paid once — your token lives forever.</p>
       </div>
 
       <div class="pricing-card">
-        <span class="pricing-icon">🔒</span>
-        <div class="pricing-module">Module 2</div>
+        <div class="pricing-module">MODULE 02 — VESTING</div>
         <div class="pricing-name">Vesting contract</div>
         <div class="pricing-amount">0.05</div>
         <div class="pricing-unit">SOL per stream</div>
-        <p class="pricing-desc">Charged only after a successful Streamflow stream is created. No fee if the transaction fails — you only pay for results.</p>
+        <hr class="pricing-divider">
+        <p class="pricing-desc">Charged only after a successful Streamflow stream. No fee if the transaction fails — you only pay for results.</p>
       </div>
 
       <div class="pricing-card">
-        <span class="pricing-icon">💧</span>
-        <div class="pricing-module">Module 3</div>
+        <div class="pricing-module">MODULE 03 — POOL</div>
         <div class="pricing-name">Liquidity pool</div>
-        <div class="pricing-amount">0.1<span style="font-size:20px">%</span></div>
+        <div class="pricing-amount">0.1<span style="font-size:24px">%</span></div>
         <div class="pricing-unit">of tokens deposited</div>
-        <p class="pricing-desc">A small percentage of your token deposit, taken at the time of pool creation. SOL and USDC are not affected — only the token side.</p>
+        <hr class="pricing-divider">
+        <p class="pricing-desc">A small cut of your token deposit at pool creation. SOL and USDC are untouched — only the token side.</p>
       </div>
 
-      <div class="pricing-card" style="background: rgba(99,102,241,0.04); border-color: rgba(99,102,241,0.2);">
-        <span class="pricing-icon">📊</span>
-        <div class="pricing-module">Module 4</div>
+      <div class="pricing-card">
+        <div class="pricing-module">MODULE 04 — PAGE</div>
         <div class="pricing-name">Public token page</div>
-        <div class="pricing-amount" style="font-size: 28px;">Free</div>
+        <div class="pricing-free">Free</div>
         <div class="pricing-unit">forever</div>
-        <p class="pricing-desc">Every token automatically gets a shareable public page with live data. No subscription, no expiry — it's yours as long as your token exists on-chain.</p>
+        <hr class="pricing-divider">
+        <p class="pricing-desc">Every token gets a public page with live market data. No subscription, no expiry — yours as long as your token exists.</p>
       </div>
+
     </div>
   </div>
 </section>
@@ -727,45 +705,40 @@
 <!-- FEATURES -->
 <section>
   <div class="container">
-    <div class="section-tag">Why Token Creator</div>
-    <h2>Built for founders,<br>not for developers.</h2>
-    <p class="section-sub">Every technical complexity is handled under the hood so you can focus on building your community.</p>
+    <div class="section-eyebrow">Why Token Creator</div>
+    <h2>Built for founders,<br>not developers.</h2>
+    <p class="section-sub">Every technical complexity handled under the hood so you focus on building your community.</p>
 
     <div class="features-grid">
       <div class="feature-card">
-        <div class="feature-icon">🔐</div>
+        <div class="feature-num">01</div>
         <div class="feature-title">Non-custodial</div>
-        <p class="feature-desc">Your wallet signs every transaction. We never hold your tokens, keys, or funds at any point in the process.</p>
+        <p class="feature-desc">Your wallet signs every transaction. We never hold your tokens, keys, or funds at any point.</p>
       </div>
-
       <div class="feature-card">
-        <div class="feature-icon">⚡</div>
+        <div class="feature-num">02</div>
         <div class="feature-title">Fully on-chain</div>
-        <p class="feature-desc">Token creation, metadata, vesting, and liquidity — everything lives on Solana. No off-chain database, no centralized dependency.</p>
+        <p class="feature-desc">Token, metadata, vesting, liquidity — everything on Solana. No off-chain database, no centralized dependency.</p>
       </div>
-
       <div class="feature-card">
-        <div class="feature-icon">🛡️</div>
+        <div class="feature-num">03</div>
         <div class="feature-title">Anti-rug options</div>
-        <p class="feature-desc">Revoke mint authority to freeze supply forever. Revoke freeze authority so no wallet can ever be blocked. Build trust with your holders.</p>
+        <p class="feature-desc">Revoke mint authority to freeze supply. Revoke freeze authority so no wallet can be blocked. Build trust.</p>
       </div>
-
       <div class="feature-card">
-        <div class="feature-icon">🌐</div>
+        <div class="feature-num">04</div>
         <div class="feature-title">IPFS metadata</div>
-        <p class="feature-desc">Your token image and metadata are pinned to IPFS via Pinata. Decentralized, permanent, and accessible to any explorer or wallet.</p>
+        <p class="feature-desc">Token image and metadata pinned to IPFS via Pinata. Decentralized, permanent, accessible to any explorer.</p>
       </div>
-
       <div class="feature-card">
-        <div class="feature-icon">📈</div>
+        <div class="feature-num">05</div>
         <div class="feature-title">Instant DEX listing</div>
-        <p class="feature-desc">Once your Orca pool is live, your token is automatically tradeable and appears on DEXscreener, Birdeye, and compatible wallets.</p>
+        <p class="feature-desc">Once your Orca pool is live, your token is tradeable on DEXscreener, Birdeye, and compatible wallets.</p>
       </div>
-
       <div class="feature-card">
-        <div class="feature-icon">🔗</div>
-        <div class="feature-title">Shareable token page</div>
-        <p class="feature-desc">Send investors and community members directly to your token's public page — live price, chart, vesting timeline, and holder distribution.</p>
+        <div class="feature-num">06</div>
+        <div class="feature-title">Shareable page</div>
+        <p class="feature-desc">Send investors to your token page — live price, chart, vesting timeline, holder distribution, social links.</p>
       </div>
     </div>
   </div>
@@ -773,20 +746,20 @@
 
 <!-- CTA -->
 <div class="container">
-  <div class="cta-section">
-    <div class="section-tag">Ready to launch?</div>
-    <h2>Your token is<br><span class="gradient-text">10 minutes away.</span></h2>
+  <div class="cta-wrap">
+    <div class="section-eyebrow">Ready to launch?</div>
+    <h2>Your token is<br><span class="gold-word">10 minutes away.</span></h2>
     <p class="section-sub">Connect your wallet and follow the four steps. No sign-up, no KYC, no waiting.</p>
-    <a href="https://app.token-creator.space" class="btn-primary" style="font-size:16px; padding: 16px 36px;">🚀 Launch your token now</a>
-    <div style="margin-top: 24px; font-size: 13px; color: var(--dim);">
-      Supported wallets: Phantom · Solflare
+    <a href="/" class="btn-primary" style="font-size:15px;padding:16px 36px;">Launch App →</a>
+    <div style="margin-top:20px;font-size:11px;color:var(--dim);font-family:'JetBrains Mono',monospace;">
+      Phantom · Solflare · Solana Mainnet
     </div>
   </div>
 </div>
 
 <footer>
   <div class="container">
-    <p>Token Creator · Built on Solana · Non-custodial · Open source</p>
+    <p>TOKEN CREATOR · SOLANA MAINNET · NON-CUSTODIAL</p>
   </div>
 </footer>
 
