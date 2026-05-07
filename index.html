@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Token Creator — Launch your Solana token</title>
+<title>Token Creator — Launch your community token on Solana</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -38,7 +38,7 @@
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 100;
-    background: rgba(10,10,10,0.9);
+    background: rgba(10,10,10,0.92);
     backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border);
   }
@@ -59,7 +59,6 @@
     color: var(--text);
     text-decoration: none;
     font-family: 'Geist Mono', monospace;
-    letter-spacing: 0.02em;
   }
 
   .nav-links {
@@ -73,7 +72,6 @@
     color: var(--muted);
     text-decoration: none;
     transition: color 0.15s;
-    font-weight: 400;
   }
 
   .nav-link:hover { color: var(--text); }
@@ -94,7 +92,6 @@
 
   .nav-cta:hover { opacity: 0.85; }
 
-  /* CONTAINER */
   .container {
     max-width: 860px;
     margin: 0 auto;
@@ -134,7 +131,7 @@
   }
 
   h1 {
-    font-size: clamp(36px, 6vw, 64px);
+    font-size: clamp(36px, 6vw, 60px);
     font-weight: 600;
     line-height: 1.05;
     letter-spacing: -0.03em;
@@ -145,23 +142,21 @@
   .hero-sub {
     font-size: 16px;
     color: var(--muted);
-    max-width: 440px;
-    line-height: 1.6;
+    max-width: 480px;
+    line-height: 1.7;
     margin-bottom: 40px;
-    font-weight: 400;
   }
 
   .hero-actions {
     display: flex;
     gap: 10px;
-    align-items: center;
     flex-wrap: wrap;
+    margin-bottom: 48px;
   }
 
   .btn-primary {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
     background: var(--text);
     color: #000;
     border: none;
@@ -180,7 +175,6 @@
   .btn-ghost {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
     background: transparent;
     color: var(--muted);
     border: 1px solid var(--border);
@@ -188,15 +182,28 @@
     padding: 11px 24px;
     font-family: 'Geist', sans-serif;
     font-size: 14px;
-    font-weight: 400;
     cursor: pointer;
     text-decoration: none;
     transition: all 0.15s;
   }
 
-  .btn-ghost:hover {
-    color: var(--text);
-    border-color: var(--dim);
+  .btn-ghost:hover { color: var(--text); border-color: var(--dim); }
+
+  /* USE CASES inline */
+  .usecases {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .usecase-pill {
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 100px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'Geist Mono', monospace;
   }
 
   /* STATS */
@@ -212,6 +219,7 @@
   }
 
   .stat:last-child { border-right: none; }
+  .stat:not(:first-child) { padding-left: 32px; }
 
   .stat-val {
     font-size: 28px;
@@ -225,7 +233,6 @@
   .stat-label {
     font-size: 12px;
     color: var(--muted);
-    font-weight: 400;
   }
 
   /* SECTION */
@@ -233,8 +240,6 @@
     padding: 80px 0;
     border-bottom: 1px solid var(--border);
   }
-
-  .section:last-of-type { border-bottom: none; }
 
   .eyebrow {
     font-size: 11px;
@@ -258,7 +263,7 @@
   .section-sub {
     font-size: 15px;
     color: var(--muted);
-    max-width: 400px;
+    max-width: 440px;
     line-height: 1.6;
     margin-bottom: 56px;
   }
@@ -270,7 +275,7 @@
     display: grid;
     grid-template-columns: 64px 1fr;
     gap: 20px;
-    padding: 28px 0;
+    padding: 32px 0;
     border-bottom: 1px solid var(--border);
     align-items: start;
   }
@@ -287,17 +292,37 @@
   }
 
   .step-title {
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 500;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     color: var(--text);
+  }
+
+  .step-optional {
+    font-size: 10px;
+    color: var(--dim);
+    font-family: 'Geist Mono', monospace;
+    margin-left: 8px;
+    letter-spacing: 0.04em;
   }
 
   .step-desc {
     font-size: 13px;
     color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 14px;
+  }
+
+  .step-highlight {
+    font-size: 13px;
+    color: var(--text);
     line-height: 1.6;
+    padding: 12px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
     margin-bottom: 12px;
+    font-style: italic;
   }
 
   .tags { display: flex; gap: 6px; flex-wrap: wrap; }
@@ -312,6 +337,36 @@
     border: 1px solid var(--border);
   }
 
+  /* SOLANA BLOCK */
+  .solana-block {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .solana-item {
+    background: var(--card);
+    padding: 20px;
+  }
+
+  .solana-val {
+    font-size: 18px;
+    font-weight: 600;
+    font-family: 'Geist Mono', monospace;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .solana-label {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
   /* PRICING */
   .pricing-table {
     border: 1px solid var(--border);
@@ -322,24 +377,36 @@
   .pricing-row {
     display: grid;
     grid-template-columns: 2fr 1fr 2fr;
-    gap: 0;
     padding: 16px 20px;
     border-bottom: 1px solid var(--border);
     align-items: center;
+    gap: 16px;
   }
 
   .pricing-row:last-child { border-bottom: none; }
 
-  .pricing-row:first-child {
+  .pricing-header-row {
     background: var(--surface);
-    padding: 12px 20px;
+    padding: 10px 20px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 2fr;
+    gap: 16px;
   }
 
-  .pricing-module {
+  .pricing-header {
     font-size: 11px;
     font-weight: 500;
     color: var(--dim);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     font-family: 'Geist Mono', monospace;
+  }
+
+  .pricing-module {
+    font-size: 10px;
+    color: var(--dim);
+    font-family: 'Geist Mono', monospace;
+    margin-bottom: 3px;
     letter-spacing: 0.04em;
   }
 
@@ -371,17 +438,8 @@
     line-height: 1.5;
   }
 
-  .pricing-header {
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--dim);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    font-family: 'Geist Mono', monospace;
-  }
-
-  /* FEATURES */
-  .features {
+  /* TRUST */
+  .trust-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1px;
@@ -391,31 +449,29 @@
     overflow: hidden;
   }
 
-  .feature {
+  .trust-item {
     background: var(--card);
     padding: 24px;
     transition: background 0.15s;
   }
 
-  .feature:hover { background: var(--surface); }
+  .trust-item:hover { background: var(--surface); }
 
-  .feature-num {
+  .trust-num {
     font-size: 11px;
-    font-weight: 500;
     font-family: 'Geist Mono', monospace;
     color: var(--dim);
-    margin-bottom: 12px;
-    letter-spacing: 0.04em;
+    margin-bottom: 10px;
   }
 
-  .feature-title {
+  .trust-title {
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 6px;
     color: var(--text);
   }
 
-  .feature-desc {
+  .trust-desc {
     font-size: 13px;
     color: var(--muted);
     line-height: 1.5;
@@ -425,11 +481,10 @@
   .cta {
     padding: 80px 0;
     text-align: center;
-    border-top: 1px solid var(--border);
   }
 
   .cta h2 { margin-bottom: 12px; }
-  .cta .section-sub { margin: 0 auto 36px; text-align: center; }
+  .cta .section-sub { margin: 0 auto 36px; }
 
   /* FOOTER */
   footer {
@@ -455,24 +510,26 @@
   @media (max-width: 640px) {
     h1 { font-size: 32px; }
     .stats { grid-template-columns: 1fr; }
-    .stat { border-right: none; border-bottom: 1px solid var(--border); }
+    .stat { border-right: none; border-bottom: 1px solid var(--border); padding-left: 0 !important; }
     .stat:last-child { border-bottom: none; }
-    .step { grid-template-columns: 40px 1fr; }
-    .pricing-row { grid-template-columns: 1fr; gap: 6px; }
-    .features { grid-template-columns: 1fr; }
+    .step { grid-template-columns: 40px 1fr; gap: 12px; }
+    .pricing-row, .pricing-header-row { grid-template-columns: 1fr; }
+    .pricing-amount, .pricing-free { text-align: left; }
+    .trust-grid, .solana-block { grid-template-columns: 1fr; }
     .nav-links .nav-link { display: none; }
   }
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <a href="https://app.token-creator.space" class="logo">token-creator</a>
+    <a href="https://token-creator.space" class="logo">token-creator</a>
     <div class="nav-links">
       <a href="#how" class="nav-link">How it works</a>
       <a href="#pricing" class="nav-link">Pricing</a>
-      <a href="https://app.token-creator.space" class="nav-cta">Open app →</a>
+      <a href="https://app.token-creator.space" class="nav-cta">Launch your token →</a>
     </div>
   </div>
 </nav>
@@ -482,13 +539,19 @@
   <div class="container">
     <div class="hero-eyebrow">
       <div class="dot-live"></div>
-      Solana Mainnet · Non-custodial
+      Live on Solana · No coding required
     </div>
-    <h1>Launch your token.<br>Own it completely.</h1>
-    <p class="hero-sub">Create, vest, and add liquidity to your Solana token in under 10 minutes — no code required, no middlemen.</p>
+    <h1>Give your community<br>its own token.</h1>
+    <p class="hero-sub">Reward members, run airdrops, organize contests — with a real token on Solana. No terminal, no developer, no friction. Just your idea and a wallet.</p>
     <div class="hero-actions">
-      <a href="https://app.token-creator.space" class="btn-primary">Open app →</a>
+      <a href="https://app.token-creator.space" class="btn-primary">Create your token →</a>
       <a href="#how" class="btn-ghost">See how it works</a>
+    </div>
+    <div class="usecases">
+      <span class="usecase-pill">🎁 Airdrops</span>
+      <span class="usecase-pill">🏆 Community contests</span>
+      <span class="usecase-pill">🤝 Member rewards</span>
+      <span class="usecase-pill">🚀 Token launches</span>
     </div>
   </div>
 </section>
@@ -497,16 +560,16 @@
 <div class="container">
   <div class="stats">
     <div class="stat">
-      <div class="stat-val mono">04</div>
-      <div class="stat-label">Modules included</div>
-    </div>
-    <div class="stat" style="padding-left: 32px;">
       <div class="stat-val mono">&lt;10min</div>
-      <div class="stat-label">From zero to listed</div>
+      <div class="stat-label">From idea to live token</div>
     </div>
-    <div class="stat" style="padding-left: 32px;">
+    <div class="stat">
+      <div class="stat-val mono">~$0.10</div>
+      <div class="stat-label">Total cost to launch</div>
+    </div>
+    <div class="stat">
       <div class="stat-val mono">100%</div>
-      <div class="stat-label">Non-custodial</div>
+      <div class="stat-label">Your wallet, your tokens</div>
     </div>
   </div>
 </div>
@@ -515,19 +578,21 @@
 <section class="section" id="how">
   <div class="container">
     <div class="eyebrow">How it works</div>
-    <h2>Four steps.<br>One complete launch.</h2>
-    <p class="section-sub">Every tool you need to go from idea to live token with liquidity.</p>
+    <h2>Four steps.<br>Everything included.</h2>
+    <p class="section-sub">Token Creator handles all the technical complexity. You just fill in the details.</p>
 
     <div class="steps">
+
       <div class="step">
         <div class="step-num">01 —</div>
         <div>
           <div class="step-title">Create your token</div>
-          <p class="step-desc">Name, symbol, logo — uploaded to IPFS via Pinata. Minted on-chain as an SPL token with Metaplex metadata. Choose supply, decimals, and dev allocation. Optionally revoke mint and freeze authorities after vesting for a fully trustless token.</p>
+          <p class="step-desc">Choose a name, symbol, and upload your logo. Set the total supply and how much you keep for yourself. Your token is created on Solana in seconds — with a public image, a description, and a permanent address anyone can look up.</p>
+          <div class="step-highlight">"I wanted a token for my Discord server to reward active members. It took me 8 minutes."</div>
           <div class="tags">
-            <span class="tag">SPL Token</span>
-            <span class="tag">Metaplex</span>
-            <span class="tag">IPFS / Pinata</span>
+            <span class="tag">Permanent logo on IPFS</span>
+            <span class="tag">Fixed or flexible supply</span>
+            <span class="tag">Visible on Solscan</span>
           </div>
         </div>
       </div>
@@ -535,11 +600,13 @@
       <div class="step">
         <div class="step-num">02 —</div>
         <div>
-          <div class="step-title">Set up vesting <span style="font-size:11px;color:var(--dim);font-family:'Geist Mono',monospace;margin-left:6px;">optional</span></div>
-          <p class="step-desc">Lock your dev allocation using Streamflow, a fully audited vesting protocol on Solana. Configure a cliff period and total duration. Tokens unlock linearly and transparently on-chain.</p>
+          <div class="step-title">Lock your allocation <span class="step-optional">optional</span></div>
+          <p class="step-desc">Keep a portion of the supply for yourself — and prove to your community you won't dump it. Set a lock period (cliff) and a release schedule. Everything is on-chain and visible to anyone.</p>
+          <div class="step-highlight">Your community sees that your tokens unlock gradually over 12 months. Trust goes up.</div>
           <div class="tags">
-            <span class="tag">Streamflow</span>
-            <span class="tag">On-chain vesting</span>
+            <span class="tag">Cliff period</span>
+            <span class="tag">Linear unlock</span>
+            <span class="tag">Publicly verifiable</span>
           </div>
         </div>
       </div>
@@ -547,12 +614,13 @@
       <div class="step">
         <div class="step-num">03 —</div>
         <div>
-          <div class="step-title">Add liquidity <span style="font-size:11px;color:var(--dim);font-family:'Geist Mono',monospace;margin-left:6px;">optional</span></div>
-          <p class="step-desc">Create a concentrated liquidity pool on Orca Whirlpool. Choose your pair, set an initial price, and deposit. Pool init, tick arrays, SOL wrapping, and position opening are handled automatically.</p>
+          <div class="step-title">Add liquidity <span class="step-optional">optional</span></div>
+          <p class="step-desc">Make your token tradeable. Pair it with SOL or USDC and set your initial price. Your token appears on DEXscreener, wallets, and price trackers automatically. No listing fees, no gatekeepers.</p>
+          <div class="step-highlight">Once the pool is live, anyone can buy your token directly from their Phantom wallet.</div>
           <div class="tags">
-            <span class="tag">Orca Whirlpool</span>
-            <span class="tag">Full-range position</span>
-            <span class="tag">WSOL auto-wrap</span>
+            <span class="tag">Tradeable on Solana DEXs</span>
+            <span class="tag">Appears on DEXscreener</span>
+            <span class="tag">You set the price</span>
           </div>
         </div>
       </div>
@@ -560,14 +628,40 @@
       <div class="step">
         <div class="step-num">04 —</div>
         <div>
-          <div class="step-title">Share your public page</div>
-          <p class="step-desc">Every token gets a page at <span class="mono" style="font-size:12px;">/token/[mint]</span> — live price, embedded chart, top holders, supply, and vesting status. All pulled from on-chain metadata automatically.</p>
+          <div class="step-title">Share your token page</div>
+          <p class="step-desc">Every token gets a public page you can share with your community from day one. It shows the live price, a price chart, the vesting schedule, and the top holders — all pulled automatically from the blockchain.</p>
+          <div class="step-highlight">Share one link. Your community sees the price, who holds what, and that your tokens are locked. That's credibility.</div>
           <div class="tags">
-            <span class="tag">DEXscreener</span>
-            <span class="tag">Live price</span>
+            <span class="tag">Live price & chart</span>
             <span class="tag">Vesting status</span>
+            <span class="tag">Top holders</span>
           </div>
         </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- WHY SOLANA -->
+<section class="section">
+  <div class="container">
+    <div class="eyebrow">Why Solana</div>
+    <h2>Fast, cheap, and built<br>for communities.</h2>
+    <p class="section-sub">Creating a token on Solana costs almost nothing. Sending it to your members costs even less. That's why it's the right chain for community projects.</p>
+
+    <div class="solana-block">
+      <div class="solana-item">
+        <div class="solana-val mono">~$0.001</div>
+        <div class="solana-label">Cost per transaction.<br>Send tokens to 1,000 members for under $1.</div>
+      </div>
+      <div class="solana-item">
+        <div class="solana-val mono">&lt;1s</div>
+        <div class="solana-label">Transaction finality.<br>Your members receive tokens instantly.</div>
+      </div>
+      <div class="solana-item">
+        <div class="solana-val mono">100%</div>
+        <div class="solana-label">On-chain transparency.<br>Every transfer is public and verifiable.</div>
       </div>
     </div>
   </div>
@@ -577,111 +671,101 @@
 <section class="section" id="pricing">
   <div class="container">
     <div class="eyebrow">Pricing</div>
-    <h2>Simple, transparent fees.</h2>
-    <p class="section-sub">Pay only when you use a module. All fees collected on-chain, visible on Solscan.</p>
+    <h2>Pay once.<br>Own it forever.</h2>
+    <p class="section-sub">No subscription, no monthly fees. You pay a small flat fee per action — and only when it succeeds.</p>
 
     <div class="pricing-table">
-      <div class="pricing-row">
-        <div class="pricing-header">Module</div>
-        <div class="pricing-header" style="text-align:center;">Fee</div>
-        <div class="pricing-header">Description</div>
+      <div class="pricing-header-row">
+        <div class="pricing-header">Step</div>
+        <div class="pricing-header">Fee</div>
+        <div class="pricing-header">What you get</div>
       </div>
 
       <div class="pricing-row">
         <div>
-          <div class="pricing-module">01 — TOKEN</div>
-          <div class="pricing-name">Token creation</div>
+          <div class="pricing-module">STEP 01</div>
+          <div class="pricing-name">Create your token</div>
         </div>
         <div class="pricing-amount">0.05 SOL</div>
-        <div class="pricing-desc">IPFS upload, on-chain mint, Metaplex metadata, ATA initialization. Paid once.</div>
+        <div class="pricing-desc">Your token on Solana — with a logo, a description, and a permanent address. Ready to send to your community.</div>
       </div>
 
       <div class="pricing-row">
         <div>
-          <div class="pricing-module">02 — VESTING</div>
-          <div class="pricing-name">Vesting contract</div>
+          <div class="pricing-module">STEP 02 · optional</div>
+          <div class="pricing-name">Lock your allocation</div>
         </div>
         <div class="pricing-amount">0.05 SOL</div>
-        <div class="pricing-desc">Charged after a successful Streamflow stream. No fee if the transaction fails.</div>
+        <div class="pricing-desc">Prove to your community that your tokens are locked. Only charged if the transaction succeeds.</div>
       </div>
 
       <div class="pricing-row">
         <div>
-          <div class="pricing-module">03 — POOL</div>
-          <div class="pricing-name">Liquidity pool</div>
+          <div class="pricing-module">STEP 03 · optional</div>
+          <div class="pricing-name">Add liquidity</div>
         </div>
         <div class="pricing-amount">0.1%</div>
-        <div class="pricing-desc">Of tokens deposited at pool creation. SOL and USDC are not affected.</div>
+        <div class="pricing-desc">Of the tokens you deposit. SOL or USDC are not affected. Your token becomes tradeable on Solana DEXs.</div>
       </div>
 
       <div class="pricing-row">
         <div>
-          <div class="pricing-module">04 — PAGE</div>
-          <div class="pricing-name">Public token page</div>
+          <div class="pricing-module">STEP 04</div>
+          <div class="pricing-name">Your token page</div>
         </div>
         <div class="pricing-free">Free</div>
-        <div class="pricing-desc">No subscription, no expiry. Your page lives as long as your token exists on-chain.</div>
+        <div class="pricing-desc">A public page with live price, chart, and vesting status. Share it with your community from day one.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FEATURES -->
+<!-- TRUST -->
 <section class="section">
   <div class="container">
-    <div class="eyebrow">Why Token Creator</div>
-    <h2>Built for founders,<br>not developers.</h2>
-    <p class="section-sub">Every technical complexity handled so you can focus on building your community.</p>
+    <div class="eyebrow">Built for trust</div>
+    <h2>Your tokens.<br>Your rules.</h2>
+    <p class="section-sub">Token Creator never touches your funds. Every action is signed by your wallet and recorded on-chain.</p>
 
-    <div class="features">
-      <div class="feature">
-        <div class="feature-num">01</div>
-        <div class="feature-title">Non-custodial</div>
-        <p class="feature-desc">Your wallet signs every transaction. We never hold your tokens, keys, or funds at any point.</p>
+    <div class="trust-grid">
+      <div class="trust-item">
+        <div class="trust-num">01</div>
+        <div class="trust-title">You keep full control</div>
+        <p class="trust-desc">We never hold your tokens or your keys. Every transaction is signed directly from your wallet (Phantom or Solflare).</p>
       </div>
-      <div class="feature">
-        <div class="feature-num">02</div>
-        <div class="feature-title">Fully on-chain</div>
-        <p class="feature-desc">Token, metadata, vesting, liquidity — everything on Solana. No off-chain database or centralized dependency.</p>
+      <div class="trust-item">
+        <div class="trust-num">02</div>
+        <div class="trust-title">Fixed supply, provably</div>
+        <p class="trust-desc">Revoke the mint authority and no one — including you — can ever create more tokens. Your community can verify it on-chain.</p>
       </div>
-      <div class="feature">
-        <div class="feature-num">03</div>
-        <div class="feature-title">Anti-rug options</div>
-        <p class="feature-desc">Revoke mint authority to fix supply forever. Revoke freeze authority so no wallet can be blocked.</p>
+      <div class="trust-item">
+        <div class="trust-num">03</div>
+        <div class="trust-title">No one can freeze wallets</div>
+        <p class="trust-desc">Revoke the freeze authority and your members' wallets can never be blocked. Their tokens are truly theirs.</p>
       </div>
-      <div class="feature">
-        <div class="feature-num">04</div>
-        <div class="feature-title">IPFS metadata</div>
-        <p class="feature-desc">Token image and metadata pinned to IPFS via Pinata. Decentralized, permanent, accessible to any explorer.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-num">05</div>
-        <div class="feature-title">Instant DEX listing</div>
-        <p class="feature-desc">Once your Orca pool is live, your token is tradeable and appears on DEXscreener and compatible wallets.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-num">06</div>
-        <div class="feature-title">Shareable page</div>
-        <p class="feature-desc">Send investors to your token page — live price, chart, vesting timeline, holder distribution.</p>
+      <div class="trust-item">
+        <div class="trust-num">04</div>
+        <div class="trust-title">Everything is public</div>
+        <p class="trust-desc">Token supply, holder list, vesting schedule — all visible on-chain. Your token page shows it all, automatically.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- CTA -->
-<div class="cta">
+<section class="cta">
   <div class="container">
-    <div class="eyebrow" style="justify-content:center;display:flex;">Ready to launch?</div>
-    <h2>Your token is 10 minutes away.</h2>
-    <p class="section-sub">Connect your wallet and follow the four steps. No sign-up, no KYC, no waiting.</p>
-    <a href="https://app.token-creator.space" class="btn-primary" style="font-size:15px;padding:13px 32px;">Open app →</a>
+    <div class="eyebrow" style="display:flex;justify-content:center;">Ready when you are</div>
+    <h2>Your community deserves<br>its own token.</h2>
+    <p class="section-sub" style="text-align:center;">Connect your wallet and follow the four steps. No code, no setup, no waiting. Your token is live in under 10 minutes.</p>
+    <a href="https://app.token-creator.space" class="btn-primary" style="font-size:15px;padding:13px 32px;">Create your token →</a>
     <p style="margin-top:16px;font-size:11px;color:var(--dim);font-family:'Geist Mono',monospace;">Phantom · Solflare · Solana Mainnet</p>
   </div>
-</div>
+</section>
 
 <footer>
   <div class="footer-inner">
-    <p>token-creator · solana mainnet · non-custodial</p>
+    <p>token-creator.space · non-custodial · fully on-chain</p>
     <p>© 2025</p>
   </div>
 </footer>
