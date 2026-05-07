@@ -652,6 +652,189 @@
     .hero-sub { font-size: 16px; }
     .section-sub { font-size: 15px; }
   }
+  /* ── ANIMATIONS ────────────────────────────────────────────── */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes slideInRight {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .fade-in { opacity: 0; animation: fadeIn 0.8s ease-out forwards; }
+  .fade-in-delay-1 { animation-delay: 0.1s; }
+  .fade-in-delay-2 { animation-delay: 0.2s; }
+  .fade-in-delay-3 { animation-delay: 0.3s; }
+  .fade-in-delay-4 { animation-delay: 0.4s; }
+
+  .slide-in-left { opacity: 0; animation: slideInLeft 0.8s ease-out forwards; }
+  .slide-in-right { opacity: 0; animation: slideInRight 0.8s ease-out forwards; }
+  .scale-in { opacity: 0; animation: scaleIn 0.8s ease-out forwards; }
+
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  [data-reveal].revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  [data-reveal-delay] { transition-delay: var(--delay); }
+
+  .hero-gradient {
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: linear-gradient(-45deg, #111, #1a1a1a, #0a0a0a, #222);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    opacity: 0.5;
+    filter: blur(100px);
+    pointer-events: none;
+  }
+
+  .particles {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .particle {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 50%;
+    opacity: 0;
+    animation: particleFloat 10s infinite;
+  }
+
+  @keyframes particleFloat {
+    0% {
+      opacity: 0;
+      transform: translateY(100vh) scale(0);
+    }
+    10% {
+      opacity: 1;
+      transform: translateY(90vh) scale(1);
+    }
+    90% {
+      opacity: 1;
+      transform: translateY(10vh) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(0) scale(0);
+    }
+  }
+
+  /* Enhanced hover effects */
+  .btn-primary, .btn-ghost, .nav-cta {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-primary::before, .nav-cta::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 0; height: 0;
+    background: rgba(0,0,0,0.1);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .btn-primary:hover::before, .nav-cta:hover::before {
+    width: 300px; height: 300px;
+  }
+
+  .btn-ghost::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+  }
+
+  .btn-ghost:hover::before {
+    transform: translateX(100%);
+  }
+
+  .pill, .tag {
+    transition: all 0.3s ease;
+  }
+
+  .pill:hover, .tag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+
+  .step {
+    transition: all 0.3s ease;
+  }
+
+  .step:hover {
+    background: rgba(255,255,255,0.02);
+    margin-left: -24px;
+    margin-right: -24px;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .trust-item:hover, .solana-item:hover {
+    background: rgba(0,0,0,0.02);
+  }
+
+  .pricing-row { transition: all 0.3s ease; }
+  .pricing-row:hover {
+    background: rgba(255,255,255,0.02);
+    transform: translateX(4px);
+  }
+
+  /* Count animation */
+  .counter {
+    display: inline-block;
+    min-width: 1ch;
+  }
+
+  .step-icon {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .step:nth-child(2) .step-icon { animation-delay: 0.5s; }
+  .step:nth-child(3) .step-icon { animation-delay: 1s; }
+  .step:nth-child(4) .step-icon { animation-delay: 1.5s; }
 </style>
 </head>
 <body>
@@ -670,18 +853,20 @@
 
 <!-- HERO -->
 <section class="hero">
+  <div class="hero-gradient"></div>
+  <div class="particles" id="particles"></div>
   <div class="hero-inner">
-    <div class="hero-eyebrow">
+    <div class="hero-eyebrow fade-in">
       <div class="dot-live"></div>
       Live on Solana · No coding required
     </div>
-    <h1>Launch your token.<br>Build your community.</h1>
-    <p class="hero-sub">From token creation to live trading in under 10 minutes — with vesting, liquidity, and a public page your community can follow from day one.</p>
-    <div class="hero-actions">
+    <h1 class="fade-in fade-in-delay-1">Launch your token.<br>Build your community.</h1>
+    <p class="hero-sub fade-in fade-in-delay-2">From token creation to live trading in under 10 minutes — with vesting, liquidity, and a public page your community can follow from day one.</p>
+    <div class="hero-actions fade-in fade-in-delay-3">
       <a href="https://app.token-creator.space" class="btn-primary">Create your token →</a>
       <a href="#how" class="btn-ghost">See how it works</a>
     </div>
-    <div class="hero-usecases">
+    <div class="hero-usecases fade-in fade-in-delay-4">
       <span class="pill">Airdrops & rewards</span>
       <span class="pill">Community contests</span>
       <span class="pill">Token launches</span>
@@ -694,15 +879,15 @@
 <div class="stats-bar">
   <div class="stats-inner">
     <div class="stat">
-      <div class="stat-val mono">&lt;10min</div>
+      <div class="stat-val mono" data-reveal><span class="counter" data-target="10">&lt;10</span>min</div>
       <div class="stat-label">From idea to live token</div>
     </div>
     <div class="stat">
-      <div class="stat-val mono">~$0.10</div>
+      <div class="stat-val mono" data-reveal>~$<span class="counter" data-target="0.10" data-decimal="2">0.10</span></div>
       <div class="stat-label">Total cost to launch</div>
     </div>
     <div class="stat">
-      <div class="stat-val mono">100%</div>
+      <div class="stat-val mono" data-reveal><span class="counter" data-target="100">100</span>%</div>
       <div class="stat-label">Your wallet, your tokens</div>
     </div>
   </div>
@@ -711,14 +896,25 @@
 <!-- HOW IT WORKS — dark -->
 <section class="section-dark" id="how">
   <div class="section-inner">
-    <div class="eyebrow">How it works</div>
-    <h2>Four steps.<br>Everything included.</h2>
-    <p class="section-sub section-sub-dark">Token Creator handles the technical complexity. You focus on your community.</p>
+    <div class="eyebrow" data-reveal>How it works</div>
+    <h2 data-reveal data-reveal-delay style="--delay: 0.1s">Four steps.<br>Everything included.</h2>
+    <p class="section-sub section-sub-dark" data-reveal data-reveal-delay style="--delay: 0.2s">Token Creator handles the technical complexity. You focus on your community.</p>
 
     <div class="steps">
-      <div class="step">
+      <div class="step" data-reveal>
         <div class="step-num">01 —</div>
         <div>
+          <svg class="step-icon" width="48" height="48" viewBox="0 0 48 48" style="margin-bottom:20px">
+            <defs>
+              <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#666;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#333;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <circle cx="24" cy="24" r="20" fill="none" stroke="url(#grad1)" stroke-width="1.5" opacity="0.5"/>
+            <path d="M24 12v24m-12-12h24" stroke="url(#grad1)" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="24" cy="24" r="3" fill="url(#grad1)"/>
+          </svg>
           <div class="step-title">Create your token</div>
           <p class="step-desc">Name, symbol, logo — uploaded permanently to IPFS. Your token is minted on Solana in seconds, with on-chain metadata visible on any explorer. Set the total supply and choose how much you keep.</p>
           <div class="step-callout">"I wanted a token to reward active members of my Discord. It took me 8 minutes from zero."</div>
@@ -730,9 +926,20 @@
         </div>
       </div>
 
-      <div class="step">
+      <div class="step" data-reveal>
         <div class="step-num">02 —</div>
         <div>
+          <svg class="step-icon" width="48" height="48" viewBox="0 0 48 48" style="margin-bottom:20px">
+            <defs>
+              <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#666;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#333;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <rect x="14" y="20" width="20" height="16" rx="2" fill="none" stroke="url(#grad2)" stroke-width="1.5"/>
+            <path d="M18 20v-4a6 6 0 0112 0v4" stroke="url(#grad2)" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="24" cy="28" r="2" fill="url(#grad2)"/>
+          </svg>
           <div class="step-title">Lock your allocation <span class="step-optional">optional</span></div>
           <p class="step-desc">Prove to your community you won't dump your tokens. Set a cliff period and a vesting schedule — tokens unlock gradually and transparently on-chain. Anyone can verify it, anytime.</p>
           <div class="step-callout">Your community sees your tokens unlock over 12 months. That's the kind of transparency that builds trust.</div>
@@ -744,9 +951,20 @@
         </div>
       </div>
 
-      <div class="step">
+      <div class="step" data-reveal>
         <div class="step-num">03 —</div>
         <div>
+          <svg class="step-icon" width="48" height="48" viewBox="0 0 48 48" style="margin-bottom:20px">
+            <defs>
+              <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#666;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#333;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <circle cx="18" cy="24" r="8" fill="none" stroke="url(#grad3)" stroke-width="1.5"/>
+            <circle cx="30" cy="24" r="8" fill="none" stroke="url(#grad3)" stroke-width="1.5"/>
+            <path d="M18 16v16m12-16v16" stroke="url(#grad3)" stroke-width="1" opacity="0.5"/>
+          </svg>
           <div class="step-title">Add liquidity <span class="step-optional">optional</span></div>
           <p class="step-desc">Make your token tradeable. Pair it with SOL or USDC, set your initial price, and open a liquidity pool on Orca — Solana's main DEX. Your token appears on DEXscreener automatically.</p>
           <div class="step-callout">Once the pool is live, anyone can buy your token directly from Phantom or any Solana wallet.</div>
@@ -758,9 +976,21 @@
         </div>
       </div>
 
-      <div class="step">
+      <div class="step" data-reveal>
         <div class="step-num">04 —</div>
         <div>
+          <svg class="step-icon" width="48" height="48" viewBox="0 0 48 48" style="margin-bottom:20px">
+            <defs>
+              <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#666;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#333;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <rect x="10" y="14" width="28" height="20" rx="2" fill="none" stroke="url(#grad4)" stroke-width="1.5"/>
+            <path d="M10 20h28" stroke="url(#grad4)" stroke-width="1" opacity="0.5"/>
+            <circle cx="24" cy="27" r="2" fill="url(#grad4)"/>
+            <path d="M20 31h8" stroke="url(#grad4)" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
           <div class="step-title">Share your token page</div>
           <p class="step-desc">Every token gets a public page you can share from day one. It shows the live price, a chart, top holders, and the vesting schedule — all pulled automatically from the blockchain. No setup needed.</p>
           <div class="step-callout">One link. Your community sees the price, who holds what, and that your tokens are locked. That's credibility you can share.</div>
@@ -778,20 +1008,20 @@
 <!-- WHY SOLANA — light -->
 <section class="section-light">
   <div class="section-inner">
-    <div class="eyebrow eyebrow-dark">Why Solana</div>
-    <h2 style="color:var(--text-dark)">Fast, cheap,<br>and built for communities.</h2>
-    <p class="section-sub section-sub-light">Creating a token costs almost nothing. Sending it to 1,000 members costs less than a coffee. That's why Solana is the right chain for community projects.</p>
+    <div class="eyebrow eyebrow-dark" data-reveal>Why Solana</div>
+    <h2 style="color:var(--text-dark)" data-reveal data-reveal-delay style="--delay: 0.1s;color:var(--text-dark)">Fast, cheap,<br>and built for communities.</h2>
+    <p class="section-sub section-sub-light" data-reveal data-reveal-delay style="--delay: 0.2s">Creating a token costs almost nothing. Sending it to 1,000 members costs less than a coffee. That's why Solana is the right chain for community projects.</p>
 
     <div class="solana-grid">
-      <div class="solana-item">
+      <div class="solana-item" data-reveal>
         <div class="solana-val">~$0.001</div>
         <div class="solana-label">Cost per transaction. Send tokens to your entire community for under $1.</div>
       </div>
-      <div class="solana-item">
+      <div class="solana-item" data-reveal>
         <div class="solana-val">&lt;1s</div>
         <div class="solana-label">Transaction speed. Your members receive tokens the moment you send them.</div>
       </div>
-      <div class="solana-item">
+      <div class="solana-item" data-reveal>
         <div class="solana-val">Public</div>
         <div class="solana-label">Every transfer, every holder, every unlock — visible on-chain, verifiable by anyone.</div>
       </div>
@@ -802,11 +1032,11 @@
 <!-- PRICING — dark alt -->
 <section class="section-dark-alt" id="pricing">
   <div class="section-inner">
-    <div class="eyebrow">Pricing</div>
-    <h2>Pay once.<br>Own it forever.</h2>
-    <p class="section-sub section-sub-dark">No subscription, no monthly fee. You pay a small flat fee per action — and only when it succeeds.</p>
+    <div class="eyebrow" data-reveal>Pricing</div>
+    <h2 data-reveal data-reveal-delay style="--delay: 0.1s">Pay once.<br>Own it forever.</h2>
+    <p class="section-sub section-sub-dark" data-reveal data-reveal-delay style="--delay: 0.2s">No subscription, no monthly fee. You pay a small flat fee per action — and only when it succeeds.</p>
 
-    <div class="pricing-table">
+    <div class="pricing-table" data-reveal data-reveal-delay style="--delay: 0.3s">
       <div class="pricing-head">
         <div class="pricing-head-label">Step</div>
         <div class="pricing-head-label" style="text-align:center;">Fee</div>
@@ -855,27 +1085,27 @@
 <!-- TRUST — light -->
 <section class="section-light">
   <div class="section-inner">
-    <div class="eyebrow eyebrow-dark">Built for trust</div>
-    <h2 style="color:var(--text-dark)">Your tokens.<br>Your rules.</h2>
-    <p class="section-sub section-sub-light">Token Creator never touches your funds. Every action is signed by your wallet and recorded permanently on-chain.</p>
+    <div class="eyebrow eyebrow-dark" data-reveal>Built for trust</div>
+    <h2 style="color:var(--text-dark)" data-reveal data-reveal-delay style="--delay: 0.1s;color:var(--text-dark)">Your tokens.<br>Your rules.</h2>
+    <p class="section-sub section-sub-light" data-reveal data-reveal-delay style="--delay: 0.2s">Token Creator never touches your funds. Every action is signed by your wallet and recorded permanently on-chain.</p>
 
     <div class="trust-grid">
-      <div class="trust-item">
+      <div class="trust-item" data-reveal>
         <div class="trust-num">01</div>
         <div class="trust-title">You keep full control</div>
         <p class="trust-desc">We never hold your tokens or your private keys. Every transaction is signed directly from your Phantom or Solflare wallet.</p>
       </div>
-      <div class="trust-item">
+      <div class="trust-item" data-reveal>
         <div class="trust-num">02</div>
         <div class="trust-title">Fixed supply, provably</div>
         <p class="trust-desc">Revoke the mint authority and no one — including you — can ever create more tokens. Your community can verify it on-chain in seconds.</p>
       </div>
-      <div class="trust-item">
+      <div class="trust-item" data-reveal>
         <div class="trust-num">03</div>
         <div class="trust-title">No one can freeze wallets</div>
         <p class="trust-desc">Revoke the freeze authority and your members' wallets can never be blocked. Their tokens are truly theirs — forever.</p>
       </div>
-      <div class="trust-item">
+      <div class="trust-item" data-reveal>
         <div class="trust-num">04</div>
         <div class="trust-title">Everything is public</div>
         <p class="trust-desc">Token supply, holder list, vesting schedule — all visible on-chain. Your token page shows it automatically, no trust required.</p>
@@ -887,11 +1117,11 @@
 <!-- CTA — dark -->
 <section class="cta-section">
   <div class="cta-inner">
-    <div class="eyebrow" style="display:flex;justify-content:center;margin-bottom:14px;">Ready when you are</div>
-    <h2>Your community deserves<br>its own token.</h2>
-    <p class="section-sub section-sub-dark" style="text-align:center;margin:0 auto 44px;">Connect your wallet and follow the four steps. No code, no setup, no waiting.</p>
-    <a href="https://app.token-creator.space" class="btn-primary" style="font-size:16px;padding:16px 36px;min-height:52px;">Create your token →</a>
-    <p class="cta-note">Phantom · Solflare · Solana Mainnet · ~$0.10 to launch</p>
+    <div class="eyebrow" style="display:flex;justify-content:center;margin-bottom:14px;" data-reveal>Ready when you are</div>
+    <h2 data-reveal data-reveal-delay style="--delay: 0.1s">Your community deserves<br>its own token.</h2>
+    <p class="section-sub section-sub-dark" style="text-align:center;margin:0 auto 44px;" data-reveal data-reveal-delay style="--delay: 0.2s;text-align:center;margin:0 auto 44px;">Connect your wallet and follow the four steps. No code, no setup, no waiting.</p>
+    <a href="https://app.token-creator.space" class="btn-primary scale-in" style="font-size:16px;padding:16px 36px;min-height:52px;animation-delay:0.3s;">Create your token →</a>
+    <p class="cta-note fade-in" style="animation-delay:0.4s;">Phantom · Solflare · Solana Mainnet · ~$0.10 to launch</p>
   </div>
 </section>
 
@@ -908,5 +1138,91 @@
   </div>
 </footer>
 
+<script>
+// Particle effect
+function createParticles() {
+  const particlesContainer = document.getElementById('particles');
+  const particleCount = 30;
+  
+  for (let i = 0; i < particleCount; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.animationDelay = Math.random() * 10 + 's';
+    particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+    particlesContainer.appendChild(particle);
+  }
+}
+
+// Intersection Observer for reveal animations
+function setupRevealAnimations() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        
+        // Trigger counter animation if it's a counter
+        const counter = entry.target.querySelector('.counter');
+        if (counter && !counter.dataset.animated) {
+          animateCounter(counter);
+          counter.dataset.animated = 'true';
+        }
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('[data-reveal]').forEach(el => {
+    observer.observe(el);
+  });
+}
+
+// Counter animation
+function animateCounter(counter) {
+  const target = parseFloat(counter.dataset.target);
+  const decimals = parseInt(counter.dataset.decimal) || 0;
+  const duration = 2000;
+  const start = 0;
+  const increment = target / (duration / 16);
+  let current = start;
+  
+  const timer = setInterval(() => {
+    current += increment;
+    if (current >= target) {
+      current = target;
+      clearInterval(timer);
+    }
+    
+    if (decimals > 0) {
+      counter.textContent = current.toFixed(decimals);
+    } else {
+      counter.textContent = Math.floor(current);
+    }
+  }, 16);
+}
+
+// Smooth scroll
+function setupSmoothScroll() {
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        const offsetTop = target.offsetTop - 80;
+        window.scrollTo({
+          top: offsetTop,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+}
+
+// Initialize
+window.addEventListener('load', () => {
+  createParticles();
+  setupRevealAnimations();
+  setupSmoothScroll();
+});
+</script>
 </body>
 </html>
