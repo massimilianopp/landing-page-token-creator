@@ -11,13 +11,19 @@
 
   :root {
     --bg: #0a0a0a;
-    --surface: #111111;
-    --card: #161616;
-    --border: #262626;
+    --bg-raised: #111111;
+    --bg-alt: #f5f5f5;
+    --surface: #1a1a1a;
+    --surface-light: #ffffff;
+    --border: #2a2a2a;
+    --border-light: #e5e5e5;
     --text: #fafafa;
-    --muted: #737373;
-    --dim: #404040;
-    --green: #22c55e;
+    --text-dark: #0a0a0a;
+    --muted: #888888;
+    --muted-dark: #555555;
+    --dim: #444444;
+    --green: #16a34a;
+    --green-light: #dcfce7;
   }
 
   html { scroll-behavior: smooth; }
@@ -27,94 +33,112 @@
     color: var(--text);
     font-family: 'Geist', sans-serif;
     -webkit-font-smoothing: antialiased;
-    font-size: 14px;
     line-height: 1.6;
+    overflow-x: hidden;
   }
 
   .mono { font-family: 'Geist Mono', monospace; }
 
-  /* NAV */
+  /* ── NAV ────────────────────────────────────────────────── */
   nav {
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 100;
-    background: rgba(10,10,10,0.92);
-    backdrop-filter: blur(16px);
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
   }
 
   .nav-inner {
-    max-width: 860px;
+    max-width: 1000px;
     margin: 0 auto;
-    padding: 0 24px;
-    height: 56px;
+    padding: 0 32px;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
 
   .logo {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
     color: var(--text);
     text-decoration: none;
     font-family: 'Geist Mono', monospace;
+    letter-spacing: -0.02em;
   }
 
   .nav-links {
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 32px;
   }
 
   .nav-link {
-    font-size: 13px;
+    font-size: 14px;
     color: var(--muted);
     text-decoration: none;
     transition: color 0.15s;
+    font-weight: 400;
   }
 
   .nav-link:hover { color: var(--text); }
 
   .nav-cta {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 500;
     color: #000;
-    background: var(--text);
+    background: #fff;
     border: none;
-    border-radius: 6px;
-    padding: 7px 16px;
+    border-radius: 8px;
+    padding: 10px 20px;
+    min-height: 44px;
     cursor: pointer;
     text-decoration: none;
     transition: opacity 0.15s;
+    display: inline-flex;
+    align-items: center;
     font-family: 'Geist', sans-serif;
   }
 
-  .nav-cta:hover { opacity: 0.85; }
+  .nav-cta:hover { opacity: 0.88; }
 
-  .container {
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 0 24px;
+  /* ── HERO ────────────────────────────────────────────────── */
+  .hero {
+    padding: 160px 0 120px;
+    position: relative;
+    overflow: hidden;
   }
 
-  /* HERO */
-  .hero {
-    padding: 140px 0 100px;
-    border-bottom: 1px solid var(--border);
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,255,255,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 32px;
   }
 
   .hero-eyebrow {
-    font-size: 11px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
     font-weight: 500;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
     font-family: 'Geist Mono', monospace;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    margin-bottom: 28px;
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    background: var(--surface);
   }
 
   .dot-live {
@@ -122,6 +146,7 @@
     height: 6px;
     border-radius: 50%;
     background: var(--green);
+    flex-shrink: 0;
     animation: blink 2s infinite;
   }
 
@@ -131,43 +156,48 @@
   }
 
   h1 {
-    font-size: clamp(36px, 6vw, 60px);
+    font-size: clamp(40px, 7vw, 72px);
     font-weight: 600;
-    line-height: 1.05;
-    letter-spacing: -0.03em;
-    margin-bottom: 20px;
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+    margin-bottom: 24px;
     color: var(--text);
+    max-width: 800px;
   }
 
   .hero-sub {
-    font-size: 16px;
+    font-size: 18px;
     color: var(--muted);
-    max-width: 480px;
-    line-height: 1.7;
-    margin-bottom: 40px;
+    max-width: 500px;
+    line-height: 1.65;
+    margin-bottom: 48px;
+    font-weight: 400;
   }
 
   .hero-actions {
     display: flex;
-    gap: 10px;
+    gap: 12px;
     flex-wrap: wrap;
-    margin-bottom: 48px;
+    margin-bottom: 64px;
   }
 
   .btn-primary {
     display: inline-flex;
     align-items: center;
-    background: var(--text);
+    gap: 8px;
+    background: #fff;
     color: #000;
     border: none;
-    border-radius: 8px;
-    padding: 11px 24px;
+    border-radius: 10px;
+    padding: 14px 28px;
+    min-height: 48px;
     font-family: 'Geist', sans-serif;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 500;
     cursor: pointer;
     text-decoration: none;
     transition: opacity 0.15s;
+    touch-action: manipulation;
   }
 
   .btn-primary:hover { opacity: 0.88; }
@@ -178,246 +208,289 @@
     background: transparent;
     color: var(--muted);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 11px 24px;
+    border-radius: 10px;
+    padding: 14px 28px;
+    min-height: 48px;
     font-family: 'Geist', sans-serif;
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: 400;
     cursor: pointer;
     text-decoration: none;
     transition: all 0.15s;
+    touch-action: manipulation;
   }
 
   .btn-ghost:hover { color: var(--text); border-color: var(--dim); }
 
-  /* USE CASES inline */
-  .usecases {
+  /* Hero use cases */
+  .hero-usecases {
     display: flex;
-    gap: 8px;
+    gap: 10px;
     flex-wrap: wrap;
   }
 
-  .usecase-pill {
-    font-size: 12px;
-    padding: 5px 12px;
+  .pill {
+    font-size: 13px;
+    padding: 8px 16px;
     border-radius: 100px;
     background: var(--surface);
     border: 1px solid var(--border);
     color: var(--muted);
-    font-family: 'Geist Mono', monospace;
+    font-family: 'Geist', sans-serif;
+    font-weight: 400;
   }
 
-  /* STATS */
-  .stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+  /* ── STATS BAR ────────────────────────────────────────────── */
+  .stats-bar {
+    background: var(--bg-raised);
+    border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
   }
 
+  .stats-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
   .stat {
-    padding: 32px 0;
+    padding: 36px 0;
     border-right: 1px solid var(--border);
   }
 
   .stat:last-child { border-right: none; }
-  .stat:not(:first-child) { padding-left: 32px; }
+  .stat:not(:first-child) { padding-left: 48px; }
 
   .stat-val {
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 600;
     font-family: 'Geist Mono', monospace;
     color: var(--text);
-    letter-spacing: -0.02em;
-    margin-bottom: 4px;
+    letter-spacing: -0.03em;
+    margin-bottom: 6px;
+    line-height: 1;
   }
 
   .stat-label {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--muted);
+    line-height: 1.4;
   }
 
-  /* SECTION */
-  .section {
-    padding: 80px 0;
+  /* ── SECTIONS ────────────────────────────────────────────── */
+  .section-dark {
+    padding: 96px 0;
     border-bottom: 1px solid var(--border);
+  }
+
+  .section-light {
+    padding: 96px 0;
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--border-light);
+    color: var(--text-dark);
+  }
+
+  .section-dark-alt {
+    padding: 96px 0;
+    background: var(--bg-raised);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 32px;
   }
 
   .eyebrow {
     font-size: 11px;
     font-weight: 500;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--muted);
     font-family: 'Geist Mono', monospace;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
   }
 
+  .eyebrow-dark { color: var(--muted-dark); }
+
   h2 {
-    font-size: clamp(24px, 4vw, 36px);
+    font-size: clamp(28px, 4vw, 44px);
     font-weight: 600;
-    letter-spacing: -0.025em;
-    line-height: 1.1;
-    margin-bottom: 12px;
-    color: var(--text);
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+    margin-bottom: 14px;
   }
 
   .section-sub {
-    font-size: 15px;
-    color: var(--muted);
-    max-width: 440px;
-    line-height: 1.6;
-    margin-bottom: 56px;
+    font-size: 16px;
+    line-height: 1.65;
+    margin-bottom: 64px;
+    max-width: 460px;
   }
 
-  /* STEPS */
+  .section-sub-dark { color: var(--muted); }
+  .section-sub-light { color: var(--muted-dark); }
+
+  /* ── STEPS ────────────────────────────────────────────────── */
   .steps { display: flex; flex-direction: column; }
 
   .step {
     display: grid;
-    grid-template-columns: 64px 1fr;
-    gap: 20px;
-    padding: 32px 0;
-    border-bottom: 1px solid var(--border);
+    grid-template-columns: 80px 1fr;
+    gap: 24px;
+    padding: 40px 0;
+    border-top: 1px solid var(--border);
     align-items: start;
   }
 
-  .step:last-child { border-bottom: none; }
+  .step:first-child { border-top: none; }
 
   .step-num {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 500;
     font-family: 'Geist Mono', monospace;
     color: var(--dim);
-    padding-top: 3px;
+    padding-top: 4px;
     letter-spacing: 0.06em;
   }
 
   .step-title {
-    font-size: 17px;
+    font-size: 20px;
     font-weight: 500;
-    margin-bottom: 6px;
+    margin-bottom: 10px;
     color: var(--text);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
   }
 
   .step-optional {
-    font-size: 10px;
+    font-size: 11px;
     color: var(--dim);
     font-family: 'Geist Mono', monospace;
-    margin-left: 8px;
+    margin-left: 10px;
     letter-spacing: 0.04em;
+    font-weight: 400;
   }
 
   .step-desc {
-    font-size: 13px;
+    font-size: 14px;
     color: var(--muted);
     line-height: 1.7;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
   }
 
-  .step-highlight {
-    font-size: 13px;
+  .step-callout {
+    font-size: 14px;
     color: var(--text);
     line-height: 1.6;
-    padding: 12px 14px;
+    padding: 14px 18px;
     background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    margin-bottom: 12px;
+    border-left: 2px solid var(--dim);
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 16px;
     font-style: italic;
   }
 
-  .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tags { display: flex; gap: 8px; flex-wrap: wrap; }
 
   .tag {
-    font-size: 11px;
+    font-size: 12px;
     font-family: 'Geist Mono', monospace;
-    padding: 3px 8px;
+    padding: 4px 10px;
     border-radius: 4px;
-    background: var(--surface);
+    background: transparent;
     color: var(--dim);
     border: 1px solid var(--border);
   }
 
-  /* SOLANA BLOCK */
-  .solana-block {
+  /* ── SOLANA ────────────────────────────────────────────────── */
+  .solana-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    border-radius: 10px;
+    background: var(--border-light);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
     overflow: hidden;
   }
 
   .solana-item {
-    background: var(--card);
-    padding: 20px;
+    background: #fff;
+    padding: 28px 24px;
   }
 
   .solana-val {
-    font-size: 18px;
+    font-size: 24px;
     font-weight: 600;
     font-family: 'Geist Mono', monospace;
-    color: var(--text);
-    margin-bottom: 4px;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+    line-height: 1;
   }
 
   .solana-label {
-    font-size: 12px;
-    color: var(--muted);
-    line-height: 1.4;
+    font-size: 13px;
+    color: var(--muted-dark);
+    line-height: 1.5;
   }
 
-  /* PRICING */
+  /* ── PRICING ────────────────────────────────────────────────── */
   .pricing-table {
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: 12px;
     overflow: hidden;
+  }
+
+  .pricing-head {
+    display: grid;
+    grid-template-columns: 2fr 1fr 2fr;
+    gap: 0;
+    padding: 12px 24px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .pricing-head-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--dim);
+    font-family: 'Geist Mono', monospace;
   }
 
   .pricing-row {
     display: grid;
     grid-template-columns: 2fr 1fr 2fr;
-    padding: 16px 20px;
+    gap: 0;
+    padding: 20px 24px;
     border-bottom: 1px solid var(--border);
     align-items: center;
-    gap: 16px;
   }
 
   .pricing-row:last-child { border-bottom: none; }
-
-  .pricing-header-row {
-    background: var(--surface);
-    padding: 10px 20px;
-    display: grid;
-    grid-template-columns: 2fr 1fr 2fr;
-    gap: 16px;
-  }
-
-  .pricing-header {
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--dim);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    font-family: 'Geist Mono', monospace;
-  }
 
   .pricing-module {
     font-size: 10px;
     color: var(--dim);
     font-family: 'Geist Mono', monospace;
-    margin-bottom: 3px;
-    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
 
   .pricing-name {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 500;
     color: var(--text);
   }
 
   .pricing-amount {
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
     font-family: 'Geist Mono', monospace;
     color: var(--text);
@@ -425,98 +498,159 @@
   }
 
   .pricing-free {
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
     font-family: 'Geist Mono', monospace;
-    color: var(--green);
+    color: #16a34a;
     text-align: center;
   }
 
   .pricing-desc {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--muted);
-    line-height: 1.5;
+    line-height: 1.55;
+    padding-left: 16px;
   }
 
-  /* TRUST */
+  /* ── TRUST ────────────────────────────────────────────────── */
   .trust-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    border-radius: 10px;
+    background: var(--border-light);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
     overflow: hidden;
   }
 
   .trust-item {
-    background: var(--card);
-    padding: 24px;
+    background: #fff;
+    padding: 28px 24px;
     transition: background 0.15s;
   }
-
-  .trust-item:hover { background: var(--surface); }
 
   .trust-num {
     font-size: 11px;
     font-family: 'Geist Mono', monospace;
-    color: var(--dim);
-    margin-bottom: 10px;
+    color: #aaa;
+    margin-bottom: 12px;
+    letter-spacing: 0.04em;
   }
 
   .trust-title {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500;
-    margin-bottom: 6px;
-    color: var(--text);
+    margin-bottom: 8px;
+    color: var(--text-dark);
+    letter-spacing: -0.01em;
   }
 
   .trust-desc {
     font-size: 13px;
-    color: var(--muted);
-    line-height: 1.5;
+    color: var(--muted-dark);
+    line-height: 1.6;
   }
 
-  /* CTA */
-  .cta {
-    padding: 80px 0;
+  /* ── CTA ────────────────────────────────────────────────── */
+  .cta-section {
+    padding: 120px 0;
     text-align: center;
+    position: relative;
+    overflow: hidden;
   }
 
-  .cta h2 { margin-bottom: 12px; }
-  .cta .section-sub { margin: 0 auto 36px; }
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0; top: 0;
+    background: radial-gradient(ellipse 60% 80% at 50% 100%, rgba(255,255,255,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
 
-  /* FOOTER */
+  .cta-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 32px;
+    position: relative;
+  }
+
+  .cta-section h2 { margin-bottom: 14px; }
+  .cta-section .section-sub { margin: 0 auto 44px; text-align: center; }
+
+  .cta-note {
+    margin-top: 20px;
+    font-size: 12px;
+    color: var(--dim);
+    font-family: 'Geist Mono', monospace;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── FOOTER ────────────────────────────────────────────────── */
   footer {
     border-top: 1px solid var(--border);
-    padding: 24px 0;
+    padding: 28px 0;
   }
 
   .footer-inner {
-    max-width: 860px;
+    max-width: 1000px;
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 32px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
   }
 
+  .footer-left {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .footer-logo {
+    font-size: 13px;
+    font-family: 'Geist Mono', monospace;
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  .footer-link {
+    font-size: 13px;
+    color: var(--dim);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .footer-link:hover { color: var(--muted); }
+
   footer p {
-    font-size: 11px;
+    font-size: 12px;
     color: var(--dim);
     font-family: 'Geist Mono', monospace;
   }
 
-  @media (max-width: 640px) {
-    h1 { font-size: 32px; }
-    .stats { grid-template-columns: 1fr; }
+  /* ── RESPONSIVE ────────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .nav-inner { padding: 0 20px; }
+    .nav-links .nav-link { display: none; }
+    .hero-inner, .stats-inner, .section-inner, .cta-inner, .footer-inner { padding: 0 20px; }
+    h1 { font-size: 36px; }
+    h2 { font-size: 28px; }
+    .hero { padding: 100px 0 72px; }
+    .section-dark, .section-light, .section-dark-alt { padding: 64px 0; }
+    .stats-inner { grid-template-columns: 1fr; }
     .stat { border-right: none; border-bottom: 1px solid var(--border); padding-left: 0 !important; }
     .stat:last-child { border-bottom: none; }
-    .step { grid-template-columns: 40px 1fr; gap: 12px; }
-    .pricing-row, .pricing-header-row { grid-template-columns: 1fr; }
+    .step { grid-template-columns: 48px 1fr; gap: 16px; }
+    .solana-grid { grid-template-columns: 1fr; }
+    .pricing-head, .pricing-row { grid-template-columns: 1fr; gap: 8px; }
+    .pricing-desc { padding-left: 0; }
     .pricing-amount, .pricing-free { text-align: left; }
-    .trust-grid, .solana-block { grid-template-columns: 1fr; }
-    .nav-links .nav-link { display: none; }
+    .trust-grid { grid-template-columns: 1fr; }
+    .cta-section { padding: 80px 0; }
+    .hero-sub { font-size: 16px; }
+    .section-sub { font-size: 15px; }
   }
 </style>
 </head>
@@ -536,29 +670,29 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="container">
+  <div class="hero-inner">
     <div class="hero-eyebrow">
       <div class="dot-live"></div>
       Live on Solana · No coding required
     </div>
-    <h1>Give your community<br>its own token.</h1>
-    <p class="hero-sub">Reward members, run airdrops, organize contests — with a real token on Solana. No terminal, no developer, no friction. Just your idea and a wallet.</p>
+    <h1>Launch your token.<br>Build your community.</h1>
+    <p class="hero-sub">From token creation to live trading in under 10 minutes — with vesting, liquidity, and a public page your community can follow from day one.</p>
     <div class="hero-actions">
       <a href="https://app.token-creator.space" class="btn-primary">Create your token →</a>
       <a href="#how" class="btn-ghost">See how it works</a>
     </div>
-    <div class="usecases">
-      <span class="usecase-pill">🎁 Airdrops</span>
-      <span class="usecase-pill">🏆 Community contests</span>
-      <span class="usecase-pill">🤝 Member rewards</span>
-      <span class="usecase-pill">🚀 Token launches</span>
+    <div class="hero-usecases">
+      <span class="pill">Airdrops & rewards</span>
+      <span class="pill">Community contests</span>
+      <span class="pill">Token launches</span>
+      <span class="pill">Member incentives</span>
     </div>
   </div>
 </section>
 
 <!-- STATS -->
-<div class="container">
-  <div class="stats">
+<div class="stats-bar">
+  <div class="stats-inner">
     <div class="stat">
       <div class="stat-val mono">&lt;10min</div>
       <div class="stat-label">From idea to live token</div>
@@ -574,21 +708,20 @@
   </div>
 </div>
 
-<!-- HOW IT WORKS -->
-<section class="section" id="how">
-  <div class="container">
+<!-- HOW IT WORKS — dark -->
+<section class="section-dark" id="how">
+  <div class="section-inner">
     <div class="eyebrow">How it works</div>
     <h2>Four steps.<br>Everything included.</h2>
-    <p class="section-sub">Token Creator handles all the technical complexity. You just fill in the details.</p>
+    <p class="section-sub section-sub-dark">Token Creator handles the technical complexity. You focus on your community.</p>
 
     <div class="steps">
-
       <div class="step">
         <div class="step-num">01 —</div>
         <div>
           <div class="step-title">Create your token</div>
-          <p class="step-desc">Choose a name, symbol, and upload your logo. Set the total supply and how much you keep for yourself. Your token is created on Solana in seconds — with a public image, a description, and a permanent address anyone can look up.</p>
-          <div class="step-highlight">"I wanted a token for my Discord server to reward active members. It took me 8 minutes."</div>
+          <p class="step-desc">Name, symbol, logo — uploaded permanently to IPFS. Your token is minted on Solana in seconds, with on-chain metadata visible on any explorer. Set the total supply and choose how much you keep.</p>
+          <div class="step-callout">"I wanted a token to reward active members of my Discord. It took me 8 minutes from zero."</div>
           <div class="tags">
             <span class="tag">Permanent logo on IPFS</span>
             <span class="tag">Fixed or flexible supply</span>
@@ -601,8 +734,8 @@
         <div class="step-num">02 —</div>
         <div>
           <div class="step-title">Lock your allocation <span class="step-optional">optional</span></div>
-          <p class="step-desc">Keep a portion of the supply for yourself — and prove to your community you won't dump it. Set a lock period (cliff) and a release schedule. Everything is on-chain and visible to anyone.</p>
-          <div class="step-highlight">Your community sees that your tokens unlock gradually over 12 months. Trust goes up.</div>
+          <p class="step-desc">Prove to your community you won't dump your tokens. Set a cliff period and a vesting schedule — tokens unlock gradually and transparently on-chain. Anyone can verify it, anytime.</p>
+          <div class="step-callout">Your community sees your tokens unlock over 12 months. That's the kind of transparency that builds trust.</div>
           <div class="tags">
             <span class="tag">Cliff period</span>
             <span class="tag">Linear unlock</span>
@@ -615,11 +748,11 @@
         <div class="step-num">03 —</div>
         <div>
           <div class="step-title">Add liquidity <span class="step-optional">optional</span></div>
-          <p class="step-desc">Make your token tradeable. Pair it with SOL or USDC and set your initial price. Your token appears on DEXscreener, wallets, and price trackers automatically. No listing fees, no gatekeepers.</p>
-          <div class="step-highlight">Once the pool is live, anyone can buy your token directly from their Phantom wallet.</div>
+          <p class="step-desc">Make your token tradeable. Pair it with SOL or USDC, set your initial price, and open a liquidity pool on Orca — Solana's main DEX. Your token appears on DEXscreener automatically.</p>
+          <div class="step-callout">Once the pool is live, anyone can buy your token directly from Phantom or any Solana wallet.</div>
           <div class="tags">
             <span class="tag">Tradeable on Solana DEXs</span>
-            <span class="tag">Appears on DEXscreener</span>
+            <span class="tag">Listed on DEXscreener</span>
             <span class="tag">You set the price</span>
           </div>
         </div>
@@ -629,8 +762,8 @@
         <div class="step-num">04 —</div>
         <div>
           <div class="step-title">Share your token page</div>
-          <p class="step-desc">Every token gets a public page you can share with your community from day one. It shows the live price, a price chart, the vesting schedule, and the top holders — all pulled automatically from the blockchain.</p>
-          <div class="step-highlight">Share one link. Your community sees the price, who holds what, and that your tokens are locked. That's credibility.</div>
+          <p class="step-desc">Every token gets a public page you can share from day one. It shows the live price, a chart, top holders, and the vesting schedule — all pulled automatically from the blockchain. No setup needed.</p>
+          <div class="step-callout">One link. Your community sees the price, who holds what, and that your tokens are locked. That's credibility you can share.</div>
           <div class="tags">
             <span class="tag">Live price & chart</span>
             <span class="tag">Vesting status</span>
@@ -638,135 +771,140 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- WHY SOLANA -->
-<section class="section">
-  <div class="container">
-    <div class="eyebrow">Why Solana</div>
-    <h2>Fast, cheap, and built<br>for communities.</h2>
-    <p class="section-sub">Creating a token on Solana costs almost nothing. Sending it to your members costs even less. That's why it's the right chain for community projects.</p>
+<!-- WHY SOLANA — light -->
+<section class="section-light">
+  <div class="section-inner">
+    <div class="eyebrow eyebrow-dark">Why Solana</div>
+    <h2 style="color:var(--text-dark)">Fast, cheap,<br>and built for communities.</h2>
+    <p class="section-sub section-sub-light">Creating a token costs almost nothing. Sending it to 1,000 members costs less than a coffee. That's why Solana is the right chain for community projects.</p>
 
-    <div class="solana-block">
+    <div class="solana-grid">
       <div class="solana-item">
-        <div class="solana-val mono">~$0.001</div>
-        <div class="solana-label">Cost per transaction.<br>Send tokens to 1,000 members for under $1.</div>
+        <div class="solana-val">~$0.001</div>
+        <div class="solana-label">Cost per transaction. Send tokens to your entire community for under $1.</div>
       </div>
       <div class="solana-item">
-        <div class="solana-val mono">&lt;1s</div>
-        <div class="solana-label">Transaction finality.<br>Your members receive tokens instantly.</div>
+        <div class="solana-val">&lt;1s</div>
+        <div class="solana-label">Transaction speed. Your members receive tokens the moment you send them.</div>
       </div>
       <div class="solana-item">
-        <div class="solana-val mono">100%</div>
-        <div class="solana-label">On-chain transparency.<br>Every transfer is public and verifiable.</div>
+        <div class="solana-val">Public</div>
+        <div class="solana-label">Every transfer, every holder, every unlock — visible on-chain, verifiable by anyone.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PRICING -->
-<section class="section" id="pricing">
-  <div class="container">
+<!-- PRICING — dark alt -->
+<section class="section-dark-alt" id="pricing">
+  <div class="section-inner">
     <div class="eyebrow">Pricing</div>
     <h2>Pay once.<br>Own it forever.</h2>
-    <p class="section-sub">No subscription, no monthly fees. You pay a small flat fee per action — and only when it succeeds.</p>
+    <p class="section-sub section-sub-dark">No subscription, no monthly fee. You pay a small flat fee per action — and only when it succeeds.</p>
 
     <div class="pricing-table">
-      <div class="pricing-header-row">
-        <div class="pricing-header">Step</div>
-        <div class="pricing-header">Fee</div>
-        <div class="pricing-header">What you get</div>
+      <div class="pricing-head">
+        <div class="pricing-head-label">Step</div>
+        <div class="pricing-head-label" style="text-align:center;">Fee</div>
+        <div class="pricing-head-label" style="padding-left:16px;">What you get</div>
       </div>
 
       <div class="pricing-row">
         <div>
-          <div class="pricing-module">STEP 01</div>
+          <div class="pricing-module">Step 01</div>
           <div class="pricing-name">Create your token</div>
         </div>
         <div class="pricing-amount">0.05 SOL</div>
-        <div class="pricing-desc">Your token on Solana — with a logo, a description, and a permanent address. Ready to send to your community.</div>
+        <div class="pricing-desc">Your token on Solana — with logo, description, and a permanent address. Ready to send to your community.</div>
       </div>
 
       <div class="pricing-row">
         <div>
-          <div class="pricing-module">STEP 02 · optional</div>
+          <div class="pricing-module">Step 02 · optional</div>
           <div class="pricing-name">Lock your allocation</div>
         </div>
         <div class="pricing-amount">0.05 SOL</div>
-        <div class="pricing-desc">Prove to your community that your tokens are locked. Only charged if the transaction succeeds.</div>
+        <div class="pricing-desc">Prove your tokens are locked on a schedule. Only charged after the transaction succeeds.</div>
       </div>
 
       <div class="pricing-row">
         <div>
-          <div class="pricing-module">STEP 03 · optional</div>
+          <div class="pricing-module">Step 03 · optional</div>
           <div class="pricing-name">Add liquidity</div>
         </div>
         <div class="pricing-amount">0.1%</div>
-        <div class="pricing-desc">Of the tokens you deposit. SOL or USDC are not affected. Your token becomes tradeable on Solana DEXs.</div>
+        <div class="pricing-desc">Of the tokens you deposit. SOL and USDC are not affected. Your token becomes tradeable instantly.</div>
       </div>
 
       <div class="pricing-row">
         <div>
-          <div class="pricing-module">STEP 04</div>
-          <div class="pricing-name">Your token page</div>
+          <div class="pricing-module">Step 04</div>
+          <div class="pricing-name">Public token page</div>
         </div>
         <div class="pricing-free">Free</div>
-        <div class="pricing-desc">A public page with live price, chart, and vesting status. Share it with your community from day one.</div>
+        <div class="pricing-desc">A shareable page with live price, chart, and vesting status. No subscription, no expiry.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- TRUST -->
-<section class="section">
-  <div class="container">
-    <div class="eyebrow">Built for trust</div>
-    <h2>Your tokens.<br>Your rules.</h2>
-    <p class="section-sub">Token Creator never touches your funds. Every action is signed by your wallet and recorded on-chain.</p>
+<!-- TRUST — light -->
+<section class="section-light">
+  <div class="section-inner">
+    <div class="eyebrow eyebrow-dark">Built for trust</div>
+    <h2 style="color:var(--text-dark)">Your tokens.<br>Your rules.</h2>
+    <p class="section-sub section-sub-light">Token Creator never touches your funds. Every action is signed by your wallet and recorded permanently on-chain.</p>
 
     <div class="trust-grid">
       <div class="trust-item">
         <div class="trust-num">01</div>
         <div class="trust-title">You keep full control</div>
-        <p class="trust-desc">We never hold your tokens or your keys. Every transaction is signed directly from your wallet (Phantom or Solflare).</p>
+        <p class="trust-desc">We never hold your tokens or your private keys. Every transaction is signed directly from your Phantom or Solflare wallet.</p>
       </div>
       <div class="trust-item">
         <div class="trust-num">02</div>
         <div class="trust-title">Fixed supply, provably</div>
-        <p class="trust-desc">Revoke the mint authority and no one — including you — can ever create more tokens. Your community can verify it on-chain.</p>
+        <p class="trust-desc">Revoke the mint authority and no one — including you — can ever create more tokens. Your community can verify it on-chain in seconds.</p>
       </div>
       <div class="trust-item">
         <div class="trust-num">03</div>
         <div class="trust-title">No one can freeze wallets</div>
-        <p class="trust-desc">Revoke the freeze authority and your members' wallets can never be blocked. Their tokens are truly theirs.</p>
+        <p class="trust-desc">Revoke the freeze authority and your members' wallets can never be blocked. Their tokens are truly theirs — forever.</p>
       </div>
       <div class="trust-item">
         <div class="trust-num">04</div>
         <div class="trust-title">Everything is public</div>
-        <p class="trust-desc">Token supply, holder list, vesting schedule — all visible on-chain. Your token page shows it all, automatically.</p>
+        <p class="trust-desc">Token supply, holder list, vesting schedule — all visible on-chain. Your token page shows it automatically, no trust required.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CTA -->
-<section class="cta">
-  <div class="container">
-    <div class="eyebrow" style="display:flex;justify-content:center;">Ready when you are</div>
+<!-- CTA — dark -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <div class="eyebrow" style="display:flex;justify-content:center;margin-bottom:14px;">Ready when you are</div>
     <h2>Your community deserves<br>its own token.</h2>
-    <p class="section-sub" style="text-align:center;">Connect your wallet and follow the four steps. No code, no setup, no waiting. Your token is live in under 10 minutes.</p>
-    <a href="https://app.token-creator.space" class="btn-primary" style="font-size:15px;padding:13px 32px;">Create your token →</a>
-    <p style="margin-top:16px;font-size:11px;color:var(--dim);font-family:'Geist Mono',monospace;">Phantom · Solflare · Solana Mainnet</p>
+    <p class="section-sub section-sub-dark" style="text-align:center;margin:0 auto 44px;">Connect your wallet and follow the four steps. No code, no setup, no waiting.</p>
+    <a href="https://app.token-creator.space" class="btn-primary" style="font-size:16px;padding:16px 36px;min-height:52px;">Create your token →</a>
+    <p class="cta-note">Phantom · Solflare · Solana Mainnet · ~$0.10 to launch</p>
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
-    <p>token-creator.space · non-custodial · fully on-chain</p>
-    <p>© 2025</p>
+    <div class="footer-left">
+      <a href="https://token-creator.space" class="footer-logo">token-creator.space</a>
+      <a href="#how" class="footer-link">How it works</a>
+      <a href="#pricing" class="footer-link">Pricing</a>
+      <a href="https://app.token-creator.space" class="footer-link">App</a>
+    </div>
+    <p>© 2025 · Non-custodial · Fully on-chain</p>
   </div>
 </footer>
 
