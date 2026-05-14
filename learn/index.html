@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learn — Token Creator Guides</title>
+<link rel="canonical" href="https://token-creator.space/learn" />
+<meta name="description" content="Everything you need to know before launching your community token on Solana. Guides on vesting, liquidity pools, airdrops, devnet testing, and more." />
+<meta property="og:title" content="Learn — Token Creator Guides" />
+<meta property="og:description" content="Everything you need to know before launching your community token on Solana." />
+<meta property="og:url" content="https://token-creator.space/learn" />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0a;
+    --bg-raised: #111111;
+    --surface: #1a1a1a;
+    --border: #2a2a2a;
+    --text: #fafafa;
+    --muted: #888888;
+    --dim: #444444;
+    --green: #16a34a;
+    --green-bg: rgba(22,163,74,0.08);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Geist', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 32px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    text-decoration: none;
+    font-family: 'Geist Mono', monospace;
+    letter-spacing: -0.02em;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .nav-link {
+    font-size: 14px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .nav-link:hover, .nav-link.active { color: var(--text); }
+
+  .nav-cta {
+    font-size: 14px;
+    font-weight: 500;
+    color: #000;
+    background: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    min-height: 44px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.15s;
+    display: inline-flex;
+    align-items: center;
+    font-family: 'Geist', sans-serif;
+  }
+
+  .nav-cta:hover { opacity: 0.88; }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 140px 0 80px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-family: 'Geist Mono', monospace;
+    margin-bottom: 24px;
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    background: var(--surface);
+  }
+
+  h1 {
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    margin-bottom: 20px;
+    max-width: 640px;
+  }
+
+  .hero-sub {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 480px;
+    line-height: 1.65;
+    font-weight: 400;
+  }
+
+  /* ── GUIDES GRID ── */
+  .guides-section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 80px 32px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dim);
+    font-family: 'Geist Mono', monospace;
+    margin-bottom: 32px;
+  }
+
+  .guides-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 80px;
+  }
+
+  .guide-card {
+    background: var(--bg);
+    padding: 36px;
+    text-decoration: none;
+    transition: background 0.15s;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    cursor: pointer;
+  }
+
+  .guide-card:hover { background: var(--bg-raised); }
+
+  .guide-num {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 0.05em;
+  }
+
+  .guide-title {
+    font-size: 19px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+  }
+
+  .guide-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  .guide-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+
+  .tag {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'Geist Mono', monospace;
+  }
+
+  .guide-arrow {
+    font-size: 18px;
+    color: var(--dim);
+    transition: color 0.15s, transform 0.15s;
+    align-self: flex-start;
+  }
+
+  .guide-card:hover .guide-arrow {
+    color: var(--text);
+    transform: translateX(4px);
+  }
+
+  /* ── ARTICLE ── */
+  .article-wrap {
+    display: none;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 32px 100px;
+  }
+
+  .article-wrap.active { display: block; }
+
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--muted);
+    text-decoration: none;
+    margin-bottom: 48px;
+    cursor: pointer;
+    transition: color 0.15s;
+    background: none;
+    border: none;
+    font-family: 'Geist', sans-serif;
+    padding: 0;
+  }
+
+  .back-btn:hover { color: var(--text); }
+
+  .article-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dim);
+    font-family: 'Geist Mono', monospace;
+    margin-bottom: 20px;
+  }
+
+  .article h1 {
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+    max-width: 720px;
+  }
+
+  .article-meta {
+    font-size: 13px;
+    color: var(--dim);
+    font-family: 'Geist Mono', monospace;
+    margin-bottom: 56px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .article-body {
+    max-width: 680px;
+  }
+
+  .article-body h2 {
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin: 48px 0 16px;
+  }
+
+  .article-body h2:first-child { margin-top: 0; }
+
+  .article-body p {
+    font-size: 16px;
+    color: #aaaaaa;
+    line-height: 1.75;
+    margin-bottom: 20px;
+  }
+
+  .article-body strong { color: var(--text); font-weight: 500; }
+
+  .callout {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--green);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 28px 0;
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .callout strong { color: var(--text); }
+
+  .checklist {
+    list-style: none;
+    margin: 20px 0 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 15px;
+    color: #aaaaaa;
+    line-height: 1.5;
+  }
+
+  .checklist li::before {
+    content: '✓';
+    color: var(--green);
+    font-size: 13px;
+    font-family: 'Geist Mono', monospace;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .mono-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0 32px;
+    font-size: 13px;
+  }
+
+  .mono-table th {
+    text-align: left;
+    padding: 10px 16px;
+    background: var(--surface);
+    color: var(--muted);
+    font-weight: 500;
+    font-family: 'Geist Mono', monospace;
+    letter-spacing: 0.04em;
+    font-size: 11px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .mono-table td {
+    padding: 14px 16px;
+    color: #aaaaaa;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.5;
+  }
+
+  .mono-table td:first-child { color: var(--text); font-weight: 500; }
+
+  .article-cta {
+    margin-top: 56px;
+    padding: 40px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    text-align: center;
+  }
+
+  .article-cta h3 {
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+  }
+
+  .article-cta p {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    color: #000;
+    border: none;
+    border-radius: 10px;
+    padding: 14px 28px;
+    font-family: 'Geist', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.15s;
+  }
+
+  .btn-primary:hover { opacity: 0.88; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 0;
+  }
+
+  .footer-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .footer-left {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .footer-logo {
+    font-family: 'Geist Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .footer-link {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .footer-link:hover { color: var(--text); }
+
+  footer p { font-size: 13px; color: var(--dim); }
+
+  /* ── FADE IN ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-up { animation: fadeUp 0.5s ease forwards; }
+  .fade-up-1 { animation: fadeUp 0.5s 0.05s ease both; }
+  .fade-up-2 { animation: fadeUp 0.5s 0.12s ease both; }
+  .fade-up-3 { animation: fadeUp 0.5s 0.2s ease both; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .guides-grid { grid-template-columns: 1fr; }
+    .nav-links { gap: 16px; }
+    .nav-link { display: none; }
+    .guide-card { padding: 24px; }
+    .guides-section { padding: 48px 20px; }
+    .hero-inner { padding: 0 20px; }
+    .article-wrap { padding: 0 20px 80px; }
+    .footer-inner { padding: 0 20px; }
+    .nav-inner { padding: 0 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="https://token-creator.space" class="logo">token-creator.space</a>
+    <div class="nav-links">
+      <a href="https://token-creator.space#how" class="nav-link">How it works</a>
+      <a href="https://token-creator.space#pricing" class="nav-link">Pricing</a>
+      <a href="https://token-creator.space/learn" class="nav-link active">Learn</a>
+      <a href="https://app.token-creator.space" class="nav-cta">Launch token →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <div class="eyebrow fade-up">📖 Guides</div>
+    <h1 class="fade-up-1">Everything you need<br>before you launch.</h1>
+    <p class="hero-sub fade-up-2">Short, practical guides on tokens, vesting, liquidity, and community building on Solana. No code required.</p>
+  </div>
+</section>
+
+<!-- GUIDES INDEX -->
+<div class="guides-section" id="guides-index">
+  <div class="section-label">5 guides · 5 min each</div>
+  <div class="guides-grid">
+
+    <div class="guide-card" onclick="openGuide('revoke')">
+      <div class="guide-num">01</div>
+      <div class="guide-title">Why revoke mint & freeze authority?</div>
+      <div class="guide-desc">Two authorities every founder should revoke after launch — and why your community will notice.</div>
+      <div class="guide-tags">
+        <span class="tag">trust</span>
+        <span class="tag">on-chain</span>
+        <span class="tag">security</span>
+      </div>
+      <div class="guide-arrow">→</div>
+    </div>
+
+    <div class="guide-card" onclick="openGuide('vesting')">
+      <div class="guide-num">02</div>
+      <div class="guide-title">How to set up token vesting</div>
+      <div class="guide-desc">What is vesting, how much to lock, what cliff and duration to choose — and why it builds trust.</div>
+      <div class="guide-tags">
+        <span class="tag">vesting</span>
+        <span class="tag">streamflow</span>
+        <span class="tag">founders</span>
+      </div>
+      <div class="guide-arrow">→</div>
+    </div>
+
+    <div class="guide-card" onclick="openGuide('liquidity')">
+      <div class="guide-num">03</div>
+      <div class="guide-title">Liquidity pool parameters explained</div>
+      <div class="guide-desc">How much SOL to deposit, how to set your token's starting price, and what makes a healthy pool.</div>
+      <div class="guide-tags">
+        <span class="tag">liquidity</span>
+        <span class="tag">orca</span>
+        <span class="tag">defi</span>
+      </div>
+      <div class="guide-arrow">→</div>
+    </div>
+
+    <div class="guide-card" onclick="openGuide('devnet')">
+      <div class="guide-num">04</div>
+      <div class="guide-title">Test your launch on Devnet first</div>
+      <div class="guide-desc">How to run your full token launch — for free — before spending real SOL on mainnet.</div>
+      <div class="guide-tags">
+        <span class="tag">devnet</span>
+        <span class="tag">testing</span>
+        <span class="tag">free</span>
+      </div>
+      <div class="guide-arrow">→</div>
+    </div>
+
+    <div class="guide-card" onclick="openGuide('tokenpage')">
+      <div class="guide-num">05</div>
+      <div class="guide-title">Your public token page</div>
+      <div class="guide-desc">What your community sees when you share your token link — and why it matters on day one.</div>
+      <div class="guide-tags">
+        <span class="tag">community</span>
+        <span class="tag">transparency</span>
+        <span class="tag">launch</span>
+      </div>
+      <div class="guide-arrow">→</div>
+    </div>
+
+    <div class="guide-card" onclick="openGuide('decimals')">
+      <div class="guide-num">06</div>
+      <div class="guide-title">6 or 9 decimals? USD or SOL pair?</div>
+      <div class="guide-desc">The two small decisions that affect how your token is displayed and traded — explained simply.</div>
+      <div class="guide-tags">
+        <span class="tag">decimals</span>
+        <span class="tag">pair</span>
+        <span class="tag">setup</span>
+      </div>
+      <div class="guide-arrow">→</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── ARTICLES ── -->
+
+<!-- 01 REVOKE -->
+<div class="article-wrap" id="article-revoke">
+  <button class="back-btn" onclick="closeGuide()">← Back to guides</button>
+  <div class="article">
+    <div class="article-eyebrow">Guide 01 · Trust & Security</div>
+    <h1>Why revoke mint & freeze authority?</h1>
+    <div class="article-meta">5 min read · Token Creator</div>
+    <div class="article-body">
+
+      <h2>What is mint authority?</h2>
+      <p>When you create a token, you automatically receive <strong>mint authority</strong> — the ability to create new tokens at any time. As long as you hold it, you can increase the total supply whenever you want.</p>
+      <p>From your community's perspective, this is a red flag. If you can print more tokens at will, why would anyone trust the value of what they're holding?</p>
+
+      <div class="callout">
+        <strong>Revoking mint authority</strong> makes the supply permanently fixed. No one — including you — can ever create more tokens. It's a public, on-chain commitment that anyone can verify.
+      </div>
+
+      <h2>What is freeze authority?</h2>
+      <p>Freeze authority allows you to block any wallet from using your token. You could theoretically prevent someone from sending or trading what they legitimately own.</p>
+      <p>This sounds like a niche concern — until it isn't. A hacked wallet or a bad actor with freeze authority could lock your community's funds overnight.</p>
+
+      <div class="callout">
+        <strong>Revoking freeze authority</strong> means no one can ever block a holder's wallet. Your community's tokens are truly theirs, forever.
+      </div>
+
+      <h2>Why does it matter?</h2>
+      <p>Your community can't read your mind. But they can read the blockchain. Revoking both authorities is permanent, public, and verifiable by anyone — it's the simplest way to prove you're serious without saying a word.</p>
+
+      <ul class="checklist">
+        <li>Fixed supply → community trusts the value of their holdings</li>
+        <li>No freeze → community knows their tokens are safe</li>
+        <li>Both are on-chain → no trust required, just proof</li>
+      </ul>
+
+      <h2>How to do it in Token Creator</h2>
+      <p>Both options are available in Step 01 of the launch flow. You'll see two toggles — <strong>Revoke Mint Authority</strong> and <strong>Revoke Freeze Authority</strong> — before you confirm the transaction. One click each. Permanent once confirmed.</p>
+
+      <div class="article-cta">
+        <h3>Ready to launch your token?</h3>
+        <p>Create, vest, and add liquidity in one flow. No code required.</p>
+        <a href="https://app.token-creator.space" class="btn-primary">Launch your token →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 02 VESTING -->
+<div class="article-wrap" id="article-vesting">
+  <button class="back-btn" onclick="closeGuide()">← Back to guides</button>
+  <div class="article">
+    <div class="article-eyebrow">Guide 02 · Vesting</div>
+    <h1>How to set up token vesting</h1>
+    <div class="article-meta">5 min read · Token Creator</div>
+    <div class="article-body">
+
+      <h2>What is vesting?</h2>
+      <p>Vesting means locking your founder tokens on-chain and releasing them gradually over time. Instead of holding your entire allocation freely, you commit to a schedule that anyone can verify.</p>
+      <p>It's not a technical requirement — it's a trust signal. A founder whose tokens are locked can't dump and disappear.</p>
+
+      <h2>How much should you vest?</h2>
+      <p>A common approach is to vest <strong>your entire founder allocation</strong> — typically 10–20% of total supply. The rest goes into the liquidity pool or a community treasury.</p>
+
+      <table class="mono-table">
+        <tr><th>Allocation</th><th>Typical %</th><th>Purpose</th></tr>
+        <tr><td>Founder vesting</td><td>10–20%</td><td>Your long-term stake, locked on-chain</td></tr>
+        <tr><td>Liquidity pool</td><td>30–50%</td><td>Enables trading from day one</td></tr>
+        <tr><td>Community / airdrops</td><td>30–50%</td><td>Rewards, contests, growth</td></tr>
+      </table>
+
+      <h2>Cliff and duration — what to choose?</h2>
+      <p>The <strong>cliff</strong> is the waiting period before any tokens unlock. The <strong>duration</strong> is how long the gradual release takes after the cliff.</p>
+
+      <table class="mono-table">
+        <tr><th>Profile</th><th>Cliff</th><th>Duration</th></tr>
+        <tr><td>Casual community project</td><td>1–3 months</td><td>6–12 months</td></tr>
+        <tr><td>Serious project</td><td>6 months</td><td>18–24 months</td></tr>
+        <tr><td>Long-term commitment</td><td>12 months</td><td>36 months</td></tr>
+      </table>
+
+      <div class="callout">
+        <strong>A 6-month cliff with 18-month linear release</strong> is a strong, credible signal for most community projects. It shows you're here for the long term — and your community can see the schedule on-chain at any time.
+      </div>
+
+      <h2>How it works in Token Creator</h2>
+      <p>Vesting is Step 02 of the launch flow, powered by Streamflow. You set the amount, the cliff, and the duration. Once confirmed, the schedule is locked on-chain and visible on your public token page automatically.</p>
+
+      <div class="article-cta">
+        <h3>Ready to launch your token?</h3>
+        <p>Create, vest, and add liquidity in one flow. No code required.</p>
+        <a href="https://app.token-creator.space" class="btn-primary">Launch your token →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 03 LIQUIDITY -->
+<div class="article-wrap" id="article-liquidity">
+  <button class="back-btn" onclick="closeGuide()">← Back to guides</button>
+  <div class="article">
+    <div class="article-eyebrow">Guide 03 · Liquidity</div>
+    <h1>Liquidity pool parameters explained</h1>
+    <div class="article-meta">5 min read · Token Creator</div>
+    <div class="article-body">
+
+      <h2>What is a liquidity pool?</h2>
+      <p>A liquidity pool is what makes your token tradeable. You deposit your token and SOL (or USDC) into a shared pool, and that pool becomes the market. Anyone can buy or sell your token against it, automatically.</p>
+      <p>Without a pool, your token exists on-chain but nobody can trade it. There's no market, no price, no way to get in or out.</p>
+
+      <h2>How is the starting price set?</h2>
+      <p>Your starting price is determined by the ratio of tokens to SOL you deposit.</p>
+
+      <div class="callout">
+        <strong>Example:</strong> if you deposit 1,000,000 tokens and 10 SOL, the starting price is 0.00001 SOL per token. Deposit fewer tokens or more SOL and the price goes up.
+      </div>
+
+      <h2>How much SOL should you deposit?</h2>
+      <p>The more SOL you deposit, the more stable your price will be. Low liquidity means big price swings on small buys — which scares serious community members away.</p>
+
+      <table class="mono-table">
+        <tr><th>Liquidity</th><th>Price impact</th><th>Suitable for</th></tr>
+        <tr><td>1–5 SOL</td><td>High volatility</td><td>Small test launch</td></tr>
+        <tr><td>5–20 SOL</td><td>Moderate</td><td>Early community project</td></tr>
+        <tr><td>20+ SOL</td><td>Stable</td><td>Serious project with backing</td></tr>
+      </table>
+
+      <p>Start with what you can genuinely afford to lock in the pool. You can always add more liquidity later as your community grows.</p>
+
+      <h2>How it works in Token Creator</h2>
+      <p>Step 03 creates your pool on Orca Whirlpool — one of the leading DEXes on Solana. You choose the token amount and SOL amount. The pool goes live on-chain immediately and your token becomes tradeable the moment you confirm.</p>
+
+      <div class="article-cta">
+        <h3>Ready to launch your token?</h3>
+        <p>Create, vest, and add liquidity in one flow. No code required.</p>
+        <a href="https://app.token-creator.space" class="btn-primary">Launch your token →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 04 DEVNET -->
+<div class="article-wrap" id="article-devnet">
+  <button class="back-btn" onclick="closeGuide()">← Back to guides</button>
+  <div class="article">
+    <div class="article-eyebrow">Guide 04 · Testing</div>
+    <h1>Test your launch on Devnet first</h1>
+    <div class="article-meta">5 min read · Token Creator</div>
+    <div class="article-body">
+
+      <h2>What is Devnet?</h2>
+      <p>Devnet is Solana's test environment. It's an identical copy of the main blockchain — same tools, same flow, same experience — but the SOL is free and nothing is real. You can practice your entire launch without spending a cent.</p>
+
+      <h2>Why bother testing?</h2>
+      <p>Most mistakes happen at launch. Wrong vesting parameters, wrong token supply, wrong liquidity ratio. By the time you realize it, real SOL is already spent — and first impressions don't come twice.</p>
+
+      <ul class="checklist">
+        <li>Get comfortable with the 4-step flow before it counts</li>
+        <li>Test your vesting schedule and see how it looks on your token page</li>
+        <li>Verify your liquidity parameters before committing real funds</li>
+        <li>Share a preview token page with a trusted friend before the real launch</li>
+      </ul>
+
+      <h2>How to test on Devnet — 3 steps</h2>
+
+      <div class="callout">
+        <strong>Step 1 —</strong> Go to <strong>faucet.solana.com</strong> and request free Devnet SOL. You'll get 2 SOL instantly, no signup required.
+      </div>
+
+      <div class="callout">
+        <strong>Step 2 —</strong> Open your wallet (Phantom or Solflare) and switch the network to <strong>Devnet</strong>. In Phantom: Settings → Developer Settings → Change Network.
+      </div>
+
+      <div class="callout">
+        <strong>Step 3 —</strong> Open Token Creator at <strong>app.token-creator.space</strong> and run your full launch. Everything works identically to mainnet.
+      </div>
+
+      <p>When you're happy with the result, switch your wallet back to Mainnet and launch for real.</p>
+
+      <div class="article-cta">
+        <h3>Ready to launch your token?</h3>
+        <p>Create, vest, and add liquidity in one flow. No code required.</p>
+        <a href="https://app.token-creator.space" class="btn-primary">Launch your token →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 05 TOKEN PAGE -->
+<div class="article-wrap" id="article-tokenpage">
+  <button class="back-btn" onclick="closeGuide()">← Back to guides</button>
+  <div class="article">
+    <div class="article-eyebrow">Guide 05 · Community</div>
+    <h1>Your public token page</h1>
+    <div class="article-meta">5 min read · Token Creator</div>
+    <div class="article-body">
+
+      <h2>What is the token page?</h2>
+      <p>Every token launched on Token Creator automatically gets a public page at <strong>token-creator.space/token/[your-mint]</strong>. No setup required — it's live the moment your token is created.</p>
+
+      <h2>What does it show?</h2>
+      <ul class="checklist">
+        <li>Live price and chart — pulled directly from on-chain data</li>
+        <li>Vesting status — your locked allocation and release schedule, visible to everyone</li>
+        <li>Top holders — full transparency on who holds what</li>
+        <li>Links to Solscan and DexScreener for independent verification</li>
+      </ul>
+
+      <h2>Why does it matter?</h2>
+      <p>Most token launches start with a contract address pasted in a Discord. A random string of characters. Your community has to figure out the rest on their own.</p>
+      <p>Your token page changes that. Instead of an address, you share a link — and your community lands on a page that answers every question they'd have before trusting your project.</p>
+
+      <div class="callout">
+        <strong>On launch day:</strong> don't paste a contract address. Share your token page link. It shows the price, who holds what, and that your tokens are locked — all at once.
+      </div>
+
+      <h2>No trust required — just proof</h2>
+      <p>Everything on the page is pulled from the blockchain in real time. You don't control what it shows. That's the point — your community doesn't have to take your word for it. They can verify everything themselves, in seconds.</p>
+
+      <div class="article-cta">
+        <h3>Ready to launch your token?</h3>
+        <p>Create, vest, and add liquidity in one flow. No code required.</p>
+        <a href="https://app.token-creator.space" class="btn-primary">Launch your token →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 06 DECIMALS -->
+<div class="article-wrap" id="article-decimals">
+  <button class="back-btn" onclick="closeGuide()">← Back to guides</button>
+  <div class="article">
+    <div class="article-eyebrow">Guide 06 · Setup</div>
+    <h1>6 or 9 decimals? USD or SOL pair?</h1>
+    <div class="article-meta">5 min read · Token Creator</div>
+    <div class="article-body">
+
+      <h2>How many decimals should you choose?</h2>
+      <p>Decimals control how precisely your token can be divided. A token with 6 decimals can be split into 0.000001 units. With 9 decimals, down to 0.000000001.</p>
+
+      <table class="mono-table">
+        <tr><th>Decimals</th><th>Smallest unit</th><th>Best for</th></tr>
+        <tr><td>6 decimals</td><td>0.000001</td><td>Most community tokens — simpler, cleaner display</td></tr>
+        <tr><td>9 decimals</td><td>0.000000001</td><td>DeFi tokens, high-precision use cases</td></tr>
+      </table>
+
+      <div class="callout">
+        <strong>For community tokens, 6 decimals is the right choice.</strong> It matches how most Solana tokens are displayed in wallets and on DexScreener, and it keeps numbers readable for your community.
+      </div>
+
+      <h2>SOL pair or USD pair?</h2>
+      <p>When you create a liquidity pool, you choose what your token trades against — SOL or USDC.</p>
+
+      <table class="mono-table">
+        <tr><th>Pair</th><th>Price in</th><th>Best for</th></tr>
+        <tr><td>SOL pair</td><td>SOL</td><td>Most community tokens — simpler, lower fees to set up</td></tr>
+        <tr><td>USDC pair</td><td>USD</td><td>Projects where stable USD pricing matters to holders</td></tr>
+      </table>
+
+      <p>A <strong>SOL pair</strong> is easier to set up and more common for community tokens on Solana. Your token price will fluctuate with SOL's price, which most community members already understand and accept.</p>
+      <p>A <strong>USDC pair</strong> makes sense if your community cares about a stable USD reference price — for example, if your token is used for payments or purchases within your community.</p>
+
+      <div class="callout">
+        <strong>When in doubt:</strong> 6 decimals + SOL pair is the standard for community tokens on Solana. You can always create a second pool with USDC later.
+      </div>
+
+      <div class="article-cta">
+        <h3>Ready to launch your token?</h3>
+        <p>Create, vest, and add liquidity in one flow. No code required.</p>
+        <a href="https://app.token-creator.space" class="btn-primary">Launch your token →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-left">
+      <a href="https://token-creator.space" class="footer-logo">token-creator.space</a>
+      <a href="https://token-creator.space#how" class="footer-link">How it works</a>
+      <a href="https://token-creator.space#pricing" class="footer-link">Pricing</a>
+      <a href="https://token-creator.space/learn" class="footer-link">Learn</a>
+      <a href="https://app.token-creator.space" class="footer-link">App</a>
+    </div>
+    <p>© 2025 · Non-custodial · Fully on-chain</p>
+  </div>
+</footer>
+
+<script>
+  function openGuide(id) {
+    document.getElementById('guides-index').style.display = 'none';
+    document.getElementById('top').style.display = 'none';
+    document.querySelectorAll('.article-wrap').forEach(el => el.classList.remove('active'));
+    const article = document.getElementById('article-' + id);
+    if (article) {
+      article.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  function closeGuide() {
+    document.querySelectorAll('.article-wrap').forEach(el => el.classList.remove('active'));
+    document.getElementById('guides-index').style.display = 'block';
+    document.getElementById('top').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
