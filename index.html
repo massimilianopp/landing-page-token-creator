@@ -723,7 +723,13 @@ body {
   }
   
   .nav-links .nav-link {
-    display: none;
+    display: none !important;
+  }
+  
+  .nav-cta {
+    max-width: 160px !important;
+    font-size: 0.75rem !important;
+    padding: 0.5rem 1rem !important;
   }
   
   /* Mobile hero with animated nebula background */
@@ -759,14 +765,29 @@ body {
     padding: 6rem 0 4rem;
   }
   
+  /* Mobile hero badge */
+  .hero-badge {
+    display: inline-flex !important;
+    width: fit-content !important;
+    margin: 0 auto 24px !important;
+    opacity: 1 !important;
+  }
+  
   /* Mobile typography */
   .hero-title {
-    font-size: clamp(32px, 8vw, 72px) !important;
+    font-size: clamp(36px, 9vw, 56px) !important;
+    color: #ffffff !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    margin-bottom: 16px !important;
+    display: block !important;
   }
   
   .hero-subtitle {
     font-size: 16px !important;
     margin-bottom: 2rem !important;
+    color: #ffffff !important;
+    opacity: 1 !important;
   }
   
   /* Mobile buttons */
@@ -782,6 +803,16 @@ body {
     width: 100%;
     max-width: 280px;
     justify-content: center;
+    opacity: 1 !important;
+  }
+  
+  /* Mobile pills */
+  .hero-pills {
+    opacity: 1 !important;
+  }
+  
+  .hero-pills .pill {
+    opacity: 1 !important;
   }
   
   .pricing-row {
@@ -1451,29 +1482,70 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
-  // Debug Spline viewer
-  console.log('🔍 Checking Spline viewer...');
-  const splineViewer = document.querySelector('spline-viewer');
-  if (splineViewer) {
-    console.log('✅ Spline viewer element found:', splineViewer);
-    console.log('📝 Spline URL:', splineViewer.getAttribute('url'));
-    
-    // Check if Spline scene loads
-    splineViewer.addEventListener('load', () => {
-      console.log('🎉 Spline scene loaded successfully!');
-    });
-    
-    splineViewer.addEventListener('error', (e) => {
-      console.error('💥 Spline scene failed to load:', e);
-    });
-  } else {
-    console.error('❌ Spline viewer element NOT found');
-  }
-
-  // Initialize hero animations
-  initHeroAnimations();
+  // Check if mobile device
+  const isMobile = window.innerWidth <= 768;
   
-  // Setup scroll animations
+  if (isMobile) {
+    console.log('📱 Mobile device detected - disabling GSAP animations');
+    
+    // Show all hero elements immediately on mobile
+    const heroElements = [
+      '.hero-badge',
+      '.hero-title',
+      '.hero-word',
+      '.hero-subtitle',
+      '.hero-actions',
+      '.hero-actions a',
+      '.hero-pills',
+      '.hero-pills .pill'
+    ];
+    
+    heroElements.forEach(selector => {
+      const elements = document.querySelectorAll(selector);
+      elements.forEach(el => {
+        if (el) {
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+          el.style.filter = 'none';
+          el.style.visibility = 'visible';
+        }
+      });
+    });
+    
+    // Force show title specifically
+    const title = document.querySelector('h1');
+    if (title) {
+      title.style.opacity = '1';
+      title.style.color = '#ffffff';
+      title.style.visibility = 'visible';
+    }
+  } else {
+    // Desktop: Initialize animations normally
+    initHeroAnimations();
+  }
+  
+  // Debug Spline viewer (desktop only)
+  if (!isMobile) {
+    console.log('🔍 Checking Spline viewer...');
+    const splineViewer = document.querySelector('spline-viewer');
+    if (splineViewer) {
+      console.log('✅ Spline viewer element found:', splineViewer);
+      console.log('📝 Spline URL:', splineViewer.getAttribute('url'));
+      
+      // Check if Spline scene loads
+      splineViewer.addEventListener('load', () => {
+        console.log('🎉 Spline scene loaded successfully!');
+      });
+      
+      splineViewer.addEventListener('error', (e) => {
+        console.error('💥 Spline scene failed to load:', e);
+      });
+    } else {
+      console.error('❌ Spline viewer element NOT found');
+    }
+  }
+  
+  // Setup scroll animations (both mobile and desktop)
   setupScrollAnimations();
   
   // Add CSS class for navbar scroll effect
