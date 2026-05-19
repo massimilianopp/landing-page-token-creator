@@ -926,7 +926,6 @@ spline-viewer::part(watermark) {
     url="https://prod.spline.design/df58MBZwVWC91RZE/scene.splinecode"
     style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;">
   </spline-viewer>
-  <div style="position:fixed;bottom:0;right:0;width:200px;height:60px;background:#000000;z-index:2147483647;pointer-events:none;"></div>
   <div class="hero-fallback-bg"></div>
   
   <div class="container hero-content" style="position:relative;z-index:1;">
@@ -1492,17 +1491,28 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // Spline badge removal via JavaScript
-setTimeout(() => {
+const hideSplineBadge = () => {
   const viewer = document.querySelector('spline-viewer');
-  if (viewer && viewer.shadowRoot) {
-    const badge = viewer.shadowRoot.querySelector('#logo');
-    if (badge) badge.style.display = 'none';
-    // Try all possible selectors
-    ['#logo', '.logo', '[class*="logo"]', '[class*="badge"]', '[class*="watermark"]', 'a'].forEach(sel => {
-      viewer.shadowRoot.querySelectorAll(sel).forEach(el => el.style.display = 'none');
-    });
-  }
-}, 2000);
+  if (!viewer) return;
+  
+  const tryHide = () => {
+    if (viewer.shadowRoot) {
+      viewer.shadowRoot.querySelectorAll('a, #logo, [class*="logo"], [class*="badge"], [class*="watermark"], [class*="built"]').forEach(el => {
+        el.style.cssText = 'display:none!important;opacity:0!important;visibility:hidden!important;';
+      });
+    }
+  };
+  
+  // Try immediately and repeatedly
+  tryHide();
+  setTimeout(tryHide, 500);
+  setTimeout(tryHide, 1000);
+  setTimeout(tryHide, 2000);
+  setTimeout(tryHide, 3000);
+};
+
+window.addEventListener('load', hideSplineBadge);
+document.addEventListener('DOMContentLoaded', hideSplineBadge);
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
