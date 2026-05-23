@@ -1594,5 +1594,34 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+<!-- Referral Tracking -->
+<script>
+(function() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const ref = urlParams.get('ref');
+  
+  if (ref && /^[a-zA-Z0-9_-]{1,50}$/.test(ref)) {
+    // Store in localStorage
+    localStorage.setItem('tc_ref', ref);
+    
+    // Store in cookie on parent domain so app subdomain can read it
+    document.cookie = `tc_ref=${ref};max-age=2592000;path=/;domain=.token-creator.space;SameSite=Lax`;
+  }
+  
+  // Read ref from localStorage or cookie (if returning visitor)
+  const storedRef = localStorage.getItem('tc_ref') || 
+    document.cookie.match(/tc_ref=([^;]+)/)?.[1];
+  
+  // Step 2 — Append ref to all CTA links pointing to app
+  if (storedRef) {
+    document.querySelectorAll('a[href*="app.token-creator.space"]').forEach(link => {
+      const url = new URL(link.href);
+      url.searchParams.set('ref', storedRef);
+      link.href = url.toString();
+    });
+  }
+})();
+</script>
+
 </body>
 </html>
