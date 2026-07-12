@@ -906,7 +906,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a href="#how-it-works" class="nav-link">How it works</a>
       <a href="#pricing" class="nav-link">Pricing</a>
       <a href="/learn" class="nav-link">Learn</a>
-      <a href="https://app.token-creator.space" class="nav-cta">
+      <a href="https://app.token-creator.space" class="nav-cta" data-cta="nav_launch">
         Launch your token
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M5 12h14m-7-7 7 7-7 7"/>
@@ -934,13 +934,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="hero-subtitle">An SPL token, on-chain vesting, a liquidity pool — without writing a line of code. Every step signed from your own wallet.</p>
     
     <div class="hero-actions">
-      <a href="https://app.token-creator.space" class="btn-primary">
+      <a href="https://app.token-creator.space" class="btn-primary" data-cta="hero_create">
         Create your token
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M5 12h14m-7-7 7 7-7 7"/>
         </svg>
       </a>
-      <a href="#how-it-works" class="btn-ghost">See how it works</a>
+      <a href="#how-it-works" class="btn-ghost" data-cta="hero_how_it_works">See how it works</a>
     </div>
     <p class="hero-reassurance">From 0.05 SOL · Non-custodial · You retain full control of your wallet</p>
     <div class="hero-pills">
@@ -1160,7 +1160,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <h2 class="section-title reveal">Your community deserves its own token.</h2>
     <p class="section-subtitle reveal">Connect your wallet and follow the four steps. No code, no setup, no waiting.</p>
     <div class="hero-actions reveal">
-      <a href="https://app.token-creator.space" class="btn-primary">
+      <a href="https://app.token-creator.space" class="btn-primary"data-cta="bottom_create">
         Create your token
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M5 12h14m-7-7 7 7-7 7"/>
@@ -1595,5 +1595,19 @@ document.addEventListener('DOMContentLoaded', function() {
 })();
 </script>
 
+<!-- CTA Click Tracking -->
+<script>
+    document.querySelectorAll('[data-cta]').forEach(function(el) {
+      el.addEventListener('click', function() {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: 'cta_click',
+          cta_id: this.getAttribute('data-cta'),
+          cta_text: this.textContent.trim()
+        });
+      });
+    });
+    </script>
+    
 </body>
 </html>
