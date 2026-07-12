@@ -13,7 +13,7 @@
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 <!-- GSAP & Lenis from CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -33,22 +33,22 @@
 }
 
 :root {
-  --bg: #0a0a0b;
-  --bg-elevated: #111113;
-  --bg-surface: #18181b;
-  --border: #27272a;
-  --border-strong: #3f3f46;
-  --text: #fafafa;
-  --text-dim: #a1a1aa;
-  --text-subtle: #71717a;
-  --accent: #7c3aed;
-  --accent-bright: #a78bfa;
-  --accent-glow: rgba(124, 58, 237, 0.15);
-  --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a78bfa 100%);
-  --accent-border: rgba(124, 58, 237, 0.4);
-  --accent-subtle: rgba(124, 58, 237, 0.08);
-  --accent-line: rgba(124, 58, 237, 0.2);
-  --green: #10b981;
+  --bg: #0d0c0a;
+  --bg-elevated: #151310;
+  --bg-surface: #1c1915;
+  --border: #2a2620;
+  --border-strong: #3d372e;
+  --text: #f2ede4;
+  --text-dim: #b3aa9c;
+  --text-subtle: #7a7266;
+  --accent: #c9622f;
+  --accent-bright: #e08a52;
+  --accent-glow: rgba(201, 98, 47, 0.12);
+  --accent-gradient: none;
+  --accent-border: rgba(201, 98, 47, 0.35);
+  --accent-subtle: rgba(201, 98, 47, 0.07);
+  --accent-line: rgba(201, 98, 47, 0.18);
+  --green: #7a9b6e;
   --white: #ffffff;
   --black: #000000;
 }
@@ -67,6 +67,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
+
+h1, h2, .hero-title, .section-title, .step-title, .pricing-name, .trust-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
 
 .container {
   max-width: 1200px;
@@ -121,7 +128,7 @@ body {
 }
 
 .nav-cta {
-  background: var(--accent-gradient);
+  background: var(--accent);
   color: var(--white);
   padding: 0.625rem 1.25rem;
   border-radius: 8px;
@@ -373,24 +380,16 @@ body {
   margin: 0 auto;
 }
 
-.steps-line {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  width: 2px;
-  height: 100%;
-  background: linear-gradient(to bottom, var(--accent), transparent);
-  transform: translateX(-50%);
-  opacity: 0;
-  z-index: 0;
-}
 
 .steps-grid {
   display: grid;
-  gap: 2rem;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
   position: relative;
   z-index: 1;
 }
+.step:nth-child(odd) { margin-right: 8%; }
+.step:nth-child(even) { margin-left: 8%; }
 
 .step {
   background: var(--bg-elevated);
@@ -420,10 +419,7 @@ body {
 }
 
 .step:hover {
-  border-color: var(--accent);
-  background: linear-gradient(135deg, var(--bg-elevated), var(--accent-subtle));
-  transform: translateY(-4px);
-  box-shadow: 0 8px 25px var(--accent-glow);
+  border-color: var(--border-strong);
 }
 
 .step-header {
@@ -496,10 +492,7 @@ body {
 }
 
 .solana-card:hover {
-  border-color: var(--accent);
-  background: linear-gradient(135deg, var(--bg), var(--accent-subtle));
-  transform: translateY(-4px);
-  box-shadow: 0 8px 25px var(--accent-glow);
+  border-color: var(--border-strong);
 }
 
 .solana-metric {
@@ -599,9 +592,6 @@ body {
 
 .trust-card:hover {
   border-color: var(--accent);
-  background: linear-gradient(135deg, var(--bg-elevated), var(--accent-subtle));
-  transform: translateY(-4px);
-  box-shadow: 0 8px 25px var(--accent-glow);
 }
 
 .trust-number {
@@ -929,10 +919,7 @@ spline-viewer::part(watermark) {
   <div class="hero-fallback-bg"></div>
   
   <div class="container hero-content" style="position:relative;z-index:1;">
-    <div class="hero-badge">
-      <div class="dot"></div>
-      Live on Solana
-    </div>
+    <div class="hero-badge">Sur Solana mainnet</div>
     
     <h1 class="hero-title" id="hero-title">
       <span class="hero-word">Launch</span>
