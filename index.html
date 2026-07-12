@@ -1597,17 +1597,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- CTA Click Tracking -->
 <script>
-    document.querySelectorAll('[data-cta]').forEach(function(el) {
-      el.addEventListener('click', function() {
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-          event: 'cta_click',
-          cta_id: this.getAttribute('data-cta'),
-          cta_text: this.textContent.trim()
-        });
+  document.querySelectorAll('[data-cta]').forEach(function(el) {
+    el.addEventListener('click', function(e) {
+      e.preventDefault(); // on bloque la navigation immédiate
+      
+      const href = this.getAttribute('href');
+      const ctaId = this.getAttribute('data-cta');
+      const ctaText = this.textContent.trim();
+      
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'cta_click',
+        cta_id: ctaId,
+        cta_text: ctaText
       });
+      
+      // On laisse 250ms au navigateur pour envoyer la requête
+      // avant de naviguer vers l'app
+      setTimeout(function() {
+        window.location.href = href;
+      }, 250);
     });
-    </script>
+  });
+  </script>
     
 </body>
 </html>
